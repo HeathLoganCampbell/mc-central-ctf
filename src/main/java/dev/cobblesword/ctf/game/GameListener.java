@@ -10,6 +10,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -102,5 +104,19 @@ public class GameListener implements Listener
         Team playerTeam = game.getPlayerTeam(e.getPlayer());
         e.setRespawnLocation(playerTeam.getSpawn());
         playerTeam.applyKit(e.getPlayer());
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e)
+    {
+        if(e.getPlayer().getGameMode() == GameMode.CREATIVE)
+        {
+            return;
+        }
+
+        if (e.getSlotType() == InventoryType.SlotType.ARMOR)
+        {
+            e.setCancelled(true);
+        }
     }
 }
