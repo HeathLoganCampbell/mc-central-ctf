@@ -110,7 +110,7 @@ public class GameListener implements Listener
             return;
         }
 
-        e.getEntity().sendMessage(CC.gold + "Killed By" + CC.white + killer.getName());
+        e.getEntity().sendMessage(CC.gold + "Killed By " + CC.white + killer.getName());
         killer.sendMessage(CC.gold + "Killed " + CC.white + e.getEntity().getName());
         killerTeam.addKill();
     }
