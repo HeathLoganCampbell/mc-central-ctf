@@ -95,4 +95,9 @@ public class Team
         inventory.setLeggings(new ItemStackBuilder(Material.LEATHER_LEGGINGS).setLeatherColour(dyeColor).build());
         inventory.setBoots(new ItemStackBuilder(Material.LEATHER_BOOTS).setLeatherColour(dyeColor).build());
     }
+
+    public int getTotalKills()
+    {
+        return 0;
+    }
 }

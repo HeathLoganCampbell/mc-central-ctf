@@ -178,6 +178,25 @@ public class Game implements Runnable
         Bukkit.getPluginManager().registerEvents(new FlagListener(this, CaptureTheFlagPlugin.getInstance()), CaptureTheFlagPlugin.getInstance());
     }
 
+    private void handleTimeoutWinner()
+    {
+        if(this.redTeam.getTotalKills() == this.blueTeam.getTotalKills())
+        {
+            // Draw
+            winningTeam = null;
+        }
+
+        if(this.redTeam.getTotalKills() > this.blueTeam.getTotalKills())
+        {
+            winningTeam = redTeam;
+        }
+
+        if(this.redTeam.getTotalKills() < this.blueTeam.getTotalKills())
+        {
+            winningTeam = blueTeam;
+        }
+    }
+
     @Override
     public void run()
     {
@@ -241,10 +260,9 @@ public class Game implements Runnable
             state = GameState.CELEBRATE;
             secondsRemaining = state.getSeconds();
 
-            for (Player onlinePlayer : Bukkit.getOnlinePlayers())
+            if(changeState && winningTeam == null )
             {
-                int expEarned = calculateXP(onlinePlayer);
-
+                handleTimeoutWinner();
             }
 
             broadcastChampion();
