@@ -204,7 +204,7 @@ public class Game implements Runnable
 
         if(state == GameState.WAITING_FOR_PLAYERS)
         {
-            int minPlayers = 1;
+            int minPlayers = 2;
             if(gamers.size() >= minPlayers)
             {
                 System.out.println("has enough players");
