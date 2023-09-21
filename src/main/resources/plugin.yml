@@ -1,0 +1,4 @@
+main: dev.cobblesword.ctf.CaptureTheFlagPlugin
+name: CaptureTheFlag
+version: 1.0
+author: Sprock
