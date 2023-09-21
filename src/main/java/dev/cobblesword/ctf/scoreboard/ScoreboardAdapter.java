@@ -57,12 +57,12 @@ public class ScoreboardAdapter implements AssembleAdapter
 
             toReturn.add(CC.bRed + "Red Team");
             toReturn.add("  Flag: " + redFlagLocation);
-            toReturn.add("  Kills: ");
+            toReturn.add("  Kills: " + game.getTeam(TeamType.RED).getTotalKills());
             toReturn.add(" ");
 
             toReturn.add(CC.bBlue + "Red Team");
             toReturn.add("  Flag: " + blueFlagLocation);
-            toReturn.add("  Kills: ");
+            toReturn.add("  Kills: " + game.getTeam(TeamType.BLUE).getTotalKills());
             toReturn.add(" ");
 
             toReturn.add(CC.bGold + "Your Stats");

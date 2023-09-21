@@ -1,5 +1,6 @@
 package dev.cobblesword.ctf.game;
 
+import dev.cobblesword.libraries.common.messages.CC;
 import dev.cobblesword.libraries.common.task.Sync;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
@@ -96,6 +97,22 @@ public class GameListener implements Listener
         }).execute();
 
         e.setDeathMessage(null);
+
+        Player killer = e.getEntity().getKiller();
+        if(killer == null)
+        {
+            return;
+        }
+
+        Team killerTeam = game.getPlayerTeam(killer);
+        if(killerTeam == null)
+        {
+            return;
+        }
+
+        e.getEntity().sendMessage(CC.gold + "Killed By" + CC.white + killer.getName());
+        killer.sendMessage(CC.gold + "Killed " + CC.white + e.getEntity().getName());
+        killerTeam.addKill();
     }
 
     @EventHandler

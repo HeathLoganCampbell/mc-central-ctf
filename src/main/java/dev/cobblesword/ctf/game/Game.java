@@ -331,6 +331,11 @@ public class Game implements Runnable
         return teams.get(teamType);
     }
 
+    public Team getTeam(TeamType teamType)
+    {
+        return teams.get(teamType);
+    }
+
     public void captureFlag(Player flagCarrier)
     {
         Team playerTeam = this.getPlayerTeam(flagCarrier);

@@ -33,6 +33,8 @@ public class Team
 
     private org.bukkit.scoreboard.Team nmsTeam;
 
+    private int totalKills = 0;
+
     public Team(String name, ChatColor chatColor, Color dyeColor, TeamType teamType, Location spawnLocation, Location flagLocation)
     {
         this.name = name;
@@ -98,6 +100,11 @@ public class Team
 
     public int getTotalKills()
     {
-        return 0;
+        return totalKills;
+    }
+
+    public void addKill()
+    {
+        totalKills++;
     }
 }
