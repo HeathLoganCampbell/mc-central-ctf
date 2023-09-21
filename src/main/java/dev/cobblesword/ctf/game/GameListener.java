@@ -109,7 +109,7 @@ public class GameListener implements Listener
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e)
     {
-        if(e.getPlayer().getGameMode() == GameMode.CREATIVE)
+        if(e.getWhoClicked().getGameMode() == GameMode.CREATIVE)
         {
             return;
         }
