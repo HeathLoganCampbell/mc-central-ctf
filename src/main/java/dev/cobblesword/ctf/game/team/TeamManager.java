@@ -55,7 +55,7 @@ public class TeamManager
 
     public Team choiceTeam()
     {
-        if (this.getTeam(TeamType.RED).getSize() > this.getTeam(TeamType.BLUE).getSize())
+        if (this.getTeam(TeamType.RED).getSize() < this.getTeam(TeamType.BLUE).getSize())
         {
             return this.getTeam(TeamType.RED);
         }

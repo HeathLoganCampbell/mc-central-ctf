@@ -185,6 +185,7 @@ public class Game implements Runnable
 
     public void setState(GameState state)
     {
+        System.out.println(this.state + " => " + state);
         this.state = state;
         secondsRemaining = state.getSeconds();
     }
@@ -192,8 +193,6 @@ public class Game implements Runnable
     @Override
     public void run()
     {
-        System.out.println("Game > " + state + " " + secondsRemaining);
-
         if(state == GameState.WAITING_FOR_PLAYERS)
         {
             int minPlayers = 2;
@@ -301,17 +300,6 @@ public class Game implements Runnable
 
             secondsRemaining--;
         }
-    }
-
-    public int calculateXP(Player player)
-    {
-        Team playerTeam = getPlayerTeam(player);
-        if(playerTeam == winningTeam)
-        {
-            return 100;
-        }
-
-        return 50;
     }
 
     public Team getPlayerTeam(Player player)
