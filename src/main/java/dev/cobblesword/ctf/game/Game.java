@@ -33,8 +33,6 @@ public class Game implements Runnable
     private Team redTeam;
     private Team blueTeam;
 
-    private HashMap<TeamType, Flag> flagMap = new HashMap<>();
-
     private HashMap<TeamType, Team> teams = new HashMap<>();
 
     private HashMap<UUID, TeamType> playersTeams = new HashMap<>();
@@ -89,12 +87,14 @@ public class Game implements Runnable
 
     public Collection<Flag> getAllFlags()
     {
-        return this.flagMap.values();
-    }
+        ArrayList<Flag> flags = new ArrayList<>();
+        for (Team team : this.teams.values())
+        {
+            Flag flag = team.getFlag();
+            flags.add(flag);
+        }
 
-    public Flag getFlag(TeamType teamType)
-    {
-        return this.flagMap.get(teamType);
+        return flags;
     }
 
     public Team choiceTeam()
@@ -179,9 +179,6 @@ public class Game implements Runnable
     {
         this.redTeam.getFlag().setUpFlag();
         this.blueTeam.getFlag().setUpFlag();
-
-        this.flagMap.put(TeamType.BLUE, this.blueTeam.getFlag());
-        this.flagMap.put(TeamType.RED, this.redTeam.getFlag());
 
         Bukkit.getPluginManager().registerEvents(new FlagListener(this, CaptureTheFlagPlugin.getInstance()), CaptureTheFlagPlugin.getInstance());
     }

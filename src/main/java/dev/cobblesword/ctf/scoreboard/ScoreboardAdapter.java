@@ -52,8 +52,11 @@ public class ScoreboardAdapter implements AssembleAdapter
         }
         else if(game.getState().InProgress())
         {
-            String redFlagLocation = game.getFlag(TeamType.RED).getFlagCarrier() == null ? "At base" : game.getFlag(TeamType.RED).getFlagCarrier().getDisplayName();
-            String blueFlagLocation = game.getFlag(TeamType.BLUE).getFlagCarrier() == null ? "At base" : game.getFlag(TeamType.BLUE).getFlagCarrier().getDisplayName();
+            Player redFlagCarrier = game.getTeam(TeamType.RED).getFlag().getFlagCarrier();
+            Player blueFlagCarrier = game.getTeam(TeamType.BLUE).getFlag().getFlagCarrier();
+
+            String redFlagLocation = redFlagCarrier == null ? "At base" :redFlagCarrier.getDisplayName();
+            String blueFlagLocation = blueFlagCarrier == null ? "At base" : blueFlagCarrier.getDisplayName();
 
             toReturn.add(CC.bRed + "Red Team");
             toReturn.add("  Flag: " + redFlagLocation);
