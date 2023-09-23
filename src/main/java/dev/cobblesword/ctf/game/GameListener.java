@@ -1,9 +1,9 @@
 package dev.cobblesword.ctf.game;
 
+import dev.cobblesword.ctf.game.team.Team;
 import dev.cobblesword.libraries.common.messages.CC;
 import dev.cobblesword.libraries.common.task.Sync;
 import org.bukkit.GameMode;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

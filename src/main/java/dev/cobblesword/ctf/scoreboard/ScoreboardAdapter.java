@@ -2,7 +2,7 @@ package dev.cobblesword.ctf.scoreboard;
 
 import dev.cobblesword.ctf.game.Game;
 import dev.cobblesword.ctf.game.GameState;
-import dev.cobblesword.ctf.game.TeamType;
+import dev.cobblesword.ctf.game.team.TeamType;
 import dev.cobblesword.libraries.common.messages.CC;
 import io.github.thatkawaiisam.assemble.AssembleAdapter;
 import org.bukkit.entity.Player;

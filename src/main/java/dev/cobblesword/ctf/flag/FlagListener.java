@@ -2,7 +2,7 @@ package dev.cobblesword.ctf.flag;
 
 import dev.cobblesword.ctf.game.Game;
 import dev.cobblesword.ctf.game.GameState;
-import dev.cobblesword.ctf.game.Team;
+import dev.cobblesword.ctf.game.team.Team;
 import dev.cobblesword.libraries.common.task.Sync;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

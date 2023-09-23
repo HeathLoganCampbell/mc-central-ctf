@@ -1,4 +1,4 @@
-package dev.cobblesword.ctf.game;
+package dev.cobblesword.ctf.game.team;
 
 import dev.cobblesword.ctf.flag.Flag;
 import dev.cobblesword.libraries.common.items.ItemStackBuilder;

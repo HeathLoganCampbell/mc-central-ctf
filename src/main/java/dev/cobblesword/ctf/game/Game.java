@@ -5,6 +5,8 @@ import dev.cobblesword.ctf.flag.Flag;
 import dev.cobblesword.ctf.flag.FlagListener;
 import dev.cobblesword.ctf.game.stats.GameStats;
 import dev.cobblesword.ctf.game.stats.PlayerGameStats;
+import dev.cobblesword.ctf.game.team.Team;
+import dev.cobblesword.ctf.game.team.TeamType;
 import dev.cobblesword.ctf.map.GameMap;
 import dev.cobblesword.libraries.common.messages.CC;
 import dev.cobblesword.libraries.common.world.Worlds;

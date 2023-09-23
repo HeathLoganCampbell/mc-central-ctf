@@ -1,6 +1,6 @@
 package dev.cobblesword.ctf.game.stats;
 
-import dev.cobblesword.ctf.game.TeamType;
+import dev.cobblesword.ctf.game.team.TeamType;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

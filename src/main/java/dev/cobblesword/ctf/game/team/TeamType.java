@@ -1,4 +1,4 @@
-package dev.cobblesword.ctf.game;
+package dev.cobblesword.ctf.game.team;
 
 public enum TeamType
 {

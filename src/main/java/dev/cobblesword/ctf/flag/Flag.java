@@ -1,6 +1,5 @@
 package dev.cobblesword.ctf.flag;
 
-import dev.cobblesword.ctf.game.Team;
 import dev.cobblesword.libraries.common.items.ItemStackBuilder;
 import dev.cobblesword.libraries.common.messages.CC;
 import dev.cobblesword.libraries.common.utils.BannerBuilder;
@@ -8,7 +7,6 @@ import dev.cobblesword.libraries.common.utils.ColorUtils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
-import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.entity.ArmorStand;
