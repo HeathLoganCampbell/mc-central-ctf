@@ -55,11 +55,8 @@ public class Game implements Runnable
 
         this.gameMap = new GameMap(gameWorld);
 
-        Team blueTeam = new Team("Blue", ChatColor.BLUE, Color.BLUE, TeamType.BLUE, new Location(this.gameWorld, 23.5, 51.5, 39.5, 135f, -9.5f), new Location(this.gameWorld, 47.5, 75.0, 62.5));
-        Team redTeam = new Team("Red", ChatColor.RED, Color.RED, TeamType.RED, new Location(this.gameWorld, -72.5, 51.5, -54.5, -45f, -9.5f), new Location(this.gameWorld, -96.5, 75, -77.5));
-
-        this.teamManager.registerTeam(blueTeam);
-        this.teamManager.registerTeam(redTeam);
+        this.teamManager.registerTeam(new Team("Blue", ChatColor.BLUE, Color.BLUE, TeamType.BLUE, new Location(this.gameWorld, 23.5, 51.5, 39.5, 135f, -9.5f), new Location(this.gameWorld, 47.5, 75.0, 62.5)));
+        this.teamManager.registerTeam(new Team("Red", ChatColor.RED, Color.RED, TeamType.RED, new Location(this.gameWorld, -72.5, 51.5, -54.5, -45f, -9.5f), new Location(this.gameWorld, -96.5, 75, -77.5));
 
         this.setState(GameState.WAITING_FOR_PLAYERS);
     }
