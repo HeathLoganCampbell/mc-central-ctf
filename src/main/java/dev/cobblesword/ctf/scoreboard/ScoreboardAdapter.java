@@ -66,8 +66,8 @@ public class ScoreboardAdapter implements AssembleAdapter
             toReturn.add(" ");
 
             toReturn.add(CC.bGold + "Your Stats");
-            toReturn.add("  Kills");
-            toReturn.add("  Deaths");
+            toReturn.add(game.getPlayerGameStats(player).getKills() + " Kills");
+            toReturn.add(game.getPlayerGameStats(player).getDeaths() + " Deaths");
         }
 
         toReturn.add(" ");

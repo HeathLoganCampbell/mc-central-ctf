@@ -3,6 +3,7 @@ package dev.cobblesword.ctf.game;
 import dev.cobblesword.ctf.CaptureTheFlagPlugin;
 import dev.cobblesword.ctf.flag.Flag;
 import dev.cobblesword.ctf.flag.FlagListener;
+import dev.cobblesword.ctf.game.stats.PlayerGameStats;
 import dev.cobblesword.ctf.map.GameMap;
 import dev.cobblesword.libraries.common.messages.CC;
 import dev.cobblesword.libraries.common.world.Worlds;
@@ -35,6 +36,8 @@ public class Game implements Runnable
 
     private HashMap<UUID, TeamType> playersTeams = new HashMap<>();
 
+    private HashMap<UUID, PlayerGameStats> playerGameStatsMap = new HashMap<>();
+
     private Team winningTeam;
 
     private World gameWorld;
@@ -62,12 +65,14 @@ public class Game implements Runnable
     public void join(Player player)
     {
         gamers.add(player);
+        playerGameStatsMap.put(player.getUniqueId(), new PlayerGameStats(player.getName(), player.getUniqueId()));
         player.setGameMode(GameMode.ADVENTURE);
         System.out.println("Game> " + player.getName() + " joined");
     }
 
     public void leave(Player player)
     {
+        playerGameStatsMap.remove(player.getUniqueId());
         gamers.remove(player);
         Team playerTeam = getPlayerTeam(player);
         if(playerTeam != null)
@@ -349,5 +354,10 @@ public class Game implements Runnable
 
     public GameState getState() {
         return this.state;
+    }
+
+    public PlayerGameStats getPlayerGameStats(Player player)
+    {
+        return this.playerGameStatsMap.get(player.getUniqueId());
     }
 }
