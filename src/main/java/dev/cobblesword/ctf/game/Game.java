@@ -6,6 +6,7 @@ import dev.cobblesword.ctf.flag.FlagListener;
 import dev.cobblesword.ctf.game.stats.GameStats;
 import dev.cobblesword.ctf.game.stats.PlayerGameStats;
 import dev.cobblesword.ctf.game.team.Team;
+import dev.cobblesword.ctf.game.team.TeamManager;
 import dev.cobblesword.ctf.game.team.TeamType;
 import dev.cobblesword.ctf.map.GameMap;
 import dev.cobblesword.libraries.common.messages.CC;
@@ -33,15 +34,14 @@ public class Game implements Runnable
 
     private GameStats gameStats;
 
-    private HashMap<TeamType, Team> teams = new HashMap<>();
-
-    private HashMap<UUID, TeamType> playersTeams = new HashMap<>();
 
     private HashMap<UUID, PlayerGameStats> playerGameStatsMap = new HashMap<>();
 
     private Team winningTeam;
 
     private World gameWorld;
+
+    private TeamManager teamManager;
 
     public Game(JavaPlugin plugin)
     {
@@ -51,14 +51,15 @@ public class Game implements Runnable
         // Load map
         this.gameWorld = Worlds.createEmptyWorld("gameWorld");
         this.gameStats = new GameStats();
+        this.teamManager = new TeamManager();
 
         this.gameMap = new GameMap(gameWorld);
 
         Team blueTeam = new Team("Blue", ChatColor.BLUE, Color.BLUE, TeamType.BLUE, new Location(this.gameWorld, 23.5, 51.5, 39.5, 135f, -9.5f), new Location(this.gameWorld, 47.5, 75.0, 62.5));
         Team redTeam = new Team("Red", ChatColor.RED, Color.RED, TeamType.RED, new Location(this.gameWorld, -72.5, 51.5, -54.5, -45f, -9.5f), new Location(this.gameWorld, -96.5, 75, -77.5));
 
-        this.teams.put(TeamType.BLUE, blueTeam);
-        this.teams.put(TeamType.RED, redTeam);
+        this.teamManager.registerTeam(blueTeam);
+        this.teamManager.registerTeam(redTeam);
 
         this.setState(GameState.WAITING_FOR_PLAYERS);
     }
@@ -75,12 +76,7 @@ public class Game implements Runnable
     {
         playerGameStatsMap.remove(player.getUniqueId());
         gamers.remove(player);
-        Team playerTeam = getPlayerTeam(player);
-        if(playerTeam != null)
-        {
-            playerTeam.removePlayer(player);
-            playersTeams.remove(player.getUniqueId());
-        }
+        this.teamManager.removePlayerFromTeam(player);
 
         System.out.println("Game> " + player.getName() + " left");
     }
@@ -88,7 +84,7 @@ public class Game implements Runnable
     public Collection<Flag> getAllFlags()
     {
         ArrayList<Flag> flags = new ArrayList<>();
-        for (Team team : this.teams.values())
+        for (Team team : this.teamManager.getTeams())
         {
             Flag flag = team.getFlag();
             flags.add(flag);
@@ -97,23 +93,12 @@ public class Game implements Runnable
         return flags;
     }
 
-    public Team choiceTeam()
-    {
-        if (this.getTeam(TeamType.RED).getSize() > this.getTeam(TeamType.BLUE).getSize())
-        {
-            return this.getTeam(TeamType.RED);
-        }
-
-        return this.getTeam(TeamType.BLUE);
-    }
-
     private void assignPlayersTeams()
     {
         for (Player onlinePlayer : Bukkit.getOnlinePlayers())
         {
-            Team team = choiceTeam();
-            team.addPlayer(onlinePlayer);
-            this.playersTeams.put(onlinePlayer.getUniqueId(), team.getTeamType());
+            Team team = teamManager.choiceTeam();
+            teamManager.addPlayerToTeam(team.getTeamType(), onlinePlayer);
         }
     }
 
@@ -335,13 +320,12 @@ public class Game implements Runnable
 
     public Team getPlayerTeam(Player player)
     {
-        TeamType teamType = playersTeams.get(player.getUniqueId());
-        return teams.get(teamType);
+        return this.teamManager.getPlayerTeam(player);
     }
 
     public Team getTeam(TeamType teamType)
     {
-        return teams.get(teamType);
+        return this.teamManager.getTeam(teamType);
     }
 
     public void captureFlag(Player flagCarrier)
