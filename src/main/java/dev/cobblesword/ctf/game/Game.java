@@ -26,14 +26,12 @@ public class Game implements Runnable
 
     @Getter
     private int secondsRemaining = -1;
+
     private List<Player> gamers = new ArrayList<Player>();
 
     private GameMap gameMap;
 
     private GameStats gameStats;
-
-    private Team redTeam;
-    private Team blueTeam;
 
     private HashMap<TeamType, Team> teams = new HashMap<>();
 
@@ -56,11 +54,11 @@ public class Game implements Runnable
 
         this.gameMap = new GameMap(gameWorld);
 
-        this.blueTeam = new Team("Blue", ChatColor.BLUE, Color.BLUE, TeamType.BLUE, new Location(this.gameWorld, 23.5, 51.5, 39.5, 135f, -9.5f), new Location(this.gameWorld, 47.5, 75.0, 62.5));
-        this.redTeam = new Team("Red", ChatColor.RED, Color.RED, TeamType.RED, new Location(this.gameWorld, -72.5, 51.5, -54.5, -45f, -9.5f), new Location(this.gameWorld, -96.5, 75, -77.5));
+        Team blueTeam = new Team("Blue", ChatColor.BLUE, Color.BLUE, TeamType.BLUE, new Location(this.gameWorld, 23.5, 51.5, 39.5, 135f, -9.5f), new Location(this.gameWorld, 47.5, 75.0, 62.5));
+        Team redTeam = new Team("Red", ChatColor.RED, Color.RED, TeamType.RED, new Location(this.gameWorld, -72.5, 51.5, -54.5, -45f, -9.5f), new Location(this.gameWorld, -96.5, 75, -77.5));
 
-        this.teams.put(TeamType.BLUE, this.blueTeam);
-        this.teams.put(TeamType.RED, this.redTeam);
+        this.teams.put(TeamType.BLUE, blueTeam);
+        this.teams.put(TeamType.RED, redTeam);
 
         this.setState(GameState.WAITING_FOR_PLAYERS);
     }
@@ -101,12 +99,12 @@ public class Game implements Runnable
 
     public Team choiceTeam()
     {
-        if (redTeam.getSize() > blueTeam.getSize())
+        if (this.getTeam(TeamType.RED).getSize() > this.getTeam(TeamType.BLUE).getSize())
         {
-            return redTeam;
+            return this.getTeam(TeamType.RED);
         }
 
-        return blueTeam;
+        return this.getTeam(TeamType.BLUE);
     }
 
     private void assignPlayersTeams()
@@ -179,28 +177,28 @@ public class Game implements Runnable
 
     private void setUpMap()
     {
-        this.redTeam.getFlag().setUpFlag();
-        this.blueTeam.getFlag().setUpFlag();
+        this.getTeam(TeamType.RED).getFlag().setUpFlag();
+        this.getTeam(TeamType.BLUE).getFlag().setUpFlag();
 
         Bukkit.getPluginManager().registerEvents(new FlagListener(this, CaptureTheFlagPlugin.getInstance()), CaptureTheFlagPlugin.getInstance());
     }
 
     private void handleTimeoutWinner()
     {
-        if(this.redTeam.getTotalKills() == this.blueTeam.getTotalKills())
+        if(this.getTeam(TeamType.RED).getTotalKills() ==  this.getTeam(TeamType.BLUE).getTotalKills())
         {
             // Draw
             winningTeam = null;
         }
 
-        if(this.redTeam.getTotalKills() > this.blueTeam.getTotalKills())
+        if(this.getTeam(TeamType.RED).getTotalKills() >  this.getTeam(TeamType.BLUE).getTotalKills())
         {
-            winningTeam = redTeam;
+            winningTeam = this.getTeam(TeamType.RED);
         }
 
-        if(this.redTeam.getTotalKills() < this.blueTeam.getTotalKills())
+        if(this.getTeam(TeamType.RED).getTotalKills() <  this.getTeam(TeamType.BLUE).getTotalKills())
         {
-            winningTeam = blueTeam;
+            winningTeam =  this.getTeam(TeamType.BLUE);
         }
     }
 
