@@ -62,8 +62,7 @@ public class Game implements Runnable
         this.teams.put(TeamType.BLUE, this.blueTeam);
         this.teams.put(TeamType.RED, this.redTeam);
 
-        this.state = GameState.WAITING_FOR_PLAYERS;
-        this.secondsRemaining = this.state.getSeconds();
+        this.setState(GameState.WAITING_FOR_PLAYERS);
     }
 
     public void join(Player player)
@@ -206,6 +205,12 @@ public class Game implements Runnable
         }
     }
 
+    public void setState(GameState state)
+    {
+        this.state = state;
+        secondsRemaining = state.getSeconds();
+    }
+
     @Override
     public void run()
     {
@@ -218,8 +223,7 @@ public class Game implements Runnable
             {
                 System.out.println("has enough players");
 
-                state = GameState.COUNTDOWN;
-                secondsRemaining = state.getSeconds();
+                this.setState(GameState.COUNTDOWN);
             }
         }
 
@@ -259,16 +263,14 @@ public class Game implements Runnable
 
             setUpMap();
 
-            state = GameState.IN_PROGRESS;
-            secondsRemaining = state.getSeconds();
+            this.setState(GameState.IN_PROGRESS);
             this.gameStats.setStartTimestamp(System.currentTimeMillis());
         }
 
         boolean changeState = secondsRemaining == 0;
         if((winningTeam != null || changeState) && state == GameState.IN_PROGRESS)
         {
-            state = GameState.CELEBRATE;
-            secondsRemaining = state.getSeconds();
+            this.setState(GameState.CELEBRATE);
 
             if(changeState && winningTeam == null )
             {
@@ -283,14 +285,12 @@ public class Game implements Runnable
         {
             if(state == GameState.COUNTDOWN)
             {
-                state = GameState.PREPARE_GAME;
-                secondsRemaining = state.getSeconds();
+                this.setState(GameState.PREPARE_GAME);
             }
 
             if(state == GameState.CELEBRATE)
             {
-                state = GameState.ENDED;
-                secondsRemaining = state.getSeconds();
+                this.setState(GameState.ENDED);
                 Bukkit.getServer().shutdown();
             }
         }
