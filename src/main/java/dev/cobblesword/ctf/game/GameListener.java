@@ -101,6 +101,7 @@ public class GameListener implements Listener
         }).execute();
 
         e.setDeathMessage(null);
+        game.getPlayerGameStats(e.getEntity()).addDeath();
 
         Player killer = e.getEntity().getKiller();
         if(killer == null)
@@ -119,7 +120,6 @@ public class GameListener implements Listener
         killerTeam.addKill();
 
         this.game.getPlayerGameStats(killer).addKill();
-        this.game.getPlayerGameStats(e.getEntity()).addDeath();
     }
 
     @EventHandler
