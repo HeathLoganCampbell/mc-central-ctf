@@ -3,6 +3,7 @@ package dev.cobblesword.ctf.game;
 import dev.cobblesword.ctf.CaptureTheFlagPlugin;
 import dev.cobblesword.ctf.flag.Flag;
 import dev.cobblesword.ctf.flag.FlagListener;
+import dev.cobblesword.ctf.game.stats.GameStats;
 import dev.cobblesword.ctf.game.stats.PlayerGameStats;
 import dev.cobblesword.ctf.map.GameMap;
 import dev.cobblesword.libraries.common.messages.CC;
@@ -27,6 +28,8 @@ public class Game implements Runnable
 
     private GameMap gameMap;
 
+    private GameStats gameStats;
+
     private Team redTeam;
     private Team blueTeam;
 
@@ -49,6 +52,7 @@ public class Game implements Runnable
 
         // Load map
         this.gameWorld = Worlds.createEmptyWorld("gameWorld");
+        this.gameStats = new GameStats();
 
         this.gameMap = new GameMap(gameWorld);
 
@@ -257,6 +261,7 @@ public class Game implements Runnable
 
             state = GameState.IN_PROGRESS;
             secondsRemaining = state.getSeconds();
+            this.gameStats.setStartTimestamp(System.currentTimeMillis());
         }
 
         boolean changeState = secondsRemaining == 0;
@@ -271,6 +276,7 @@ public class Game implements Runnable
             }
 
             broadcastChampion();
+            this.gameStats.setEndTimestamp(System.currentTimeMillis());
         }
 
         if(changeState)
