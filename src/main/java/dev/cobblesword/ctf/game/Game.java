@@ -1,6 +1,7 @@
 package dev.cobblesword.ctf.game;
 
 import dev.cobblesword.ctf.CaptureTheFlagPlugin;
+import dev.cobblesword.ctf.data.playerdata.types.PlayerData;
 import dev.cobblesword.ctf.flag.Flag;
 import dev.cobblesword.ctf.flag.FlagListener;
 import dev.cobblesword.ctf.data.gamedata.types.PlayerGameData;
@@ -249,6 +250,7 @@ public class Game implements Runnable
                 handleTimeoutWinner();
             }
 
+            onGiveRewards();
             broadcastChampion();
         }
 
@@ -314,7 +316,26 @@ public class Game implements Runnable
 
         playerTeam.applyKit(flagCarrier);
 
+        PlayerGameData playerGameData = playerGameStatsMap.get(flagCarrier.getUniqueId());
+        playerGameData.addCapture();
+
         winningTeam = playerTeam;
+    }
+
+    public void onGiveRewards()
+    {
+        for (Player player : Bukkit.getOnlinePlayers())
+        {
+            PlayerGameData playerGameData = playerGameStatsMap.get(player.getUniqueId());
+            PlayerData playerData = CaptureTheFlagPlugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
+            Team team = this.getPlayerTeam(player);
+
+            playerData.addKills(playerGameData.getKills());
+            playerData.addDeaths(playerGameData.getDeaths());
+            playerData.addGames(1);
+            playerData.addWins(this.winningTeam == team ? 1 : 0);
+            playerData.addCaptures(playerGameData.getCaptures());
+        }
     }
 
     public GameState getState() {

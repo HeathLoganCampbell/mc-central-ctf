@@ -21,6 +21,13 @@ public class PlayerGameData
     private int kills = 0;
     private int deaths = 0;
 
+    private int captures = 0;
+
+    public void addCapture()
+    {
+        this.captures++;
+    }
+
     public void addKill()
     {
         this.kills++;
