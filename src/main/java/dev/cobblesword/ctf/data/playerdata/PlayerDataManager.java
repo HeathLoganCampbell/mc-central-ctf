@@ -5,6 +5,7 @@ import dev.cobblesword.ctf.data.playerdata.listeners.PlayerDataListener;
 import dev.cobblesword.ctf.data.playerdata.types.PlayerConnectionStatus;
 import dev.cobblesword.ctf.data.playerdata.types.PlayerData;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -41,14 +42,16 @@ public class PlayerDataManager
         this.playerDataMap.put(uuid, playerData);
     }
 
-    public void onJoin(UUID uuid)
+    public void onJoin(Player player)
     {
-        PlayerData playerData = this.playerDataMap.get(uuid);
+        PlayerData playerData = this.playerDataMap.get(player.getUniqueId());
 
         if(playerData == null)
         {
             return;
         }
+
+        player.setLevel(playerData.getLevel());
 
         playerData.setConnectionStatus(PlayerConnectionStatus.ONLINE);
         this.playerDataRepository.save(playerData);
@@ -62,5 +65,10 @@ public class PlayerDataManager
 
         this.playerDataRepository.save(playerData);
         this.playerDataMap.remove(uuid);
+    }
+
+    public PlayerData getPlayerData(UUID uuid)
+    {
+        return this.playerDataMap.get(uuid);
     }
 }

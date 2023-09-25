@@ -28,45 +28,27 @@ import java.util.UUID;
  */
 public class Database
 {
-    private MongoClient mongo;
-    private Morphia morphia;
     private @Getter Datastore datastore;
-
-    private String databaseName;
-
     private MongoClient client;
-
-//    public static void main(String[] args) {
-//        Database database = new Database(null, "capturetheflag.efkvpik.mongodb.net", 27017, "databaseUser", "c5Hgq1oW8WuntJC6", "CaptureTheFlag");
-//
-//        PlayerData playerData = new PlayerData();
-//        playerData.setName("sprick");
-//        playerData.setUuid(UUID.randomUUID());
-//
-//        new PlayerDataRepository(database).save(playerData);
-//        System.out.println("saved");
-//    }
 
     public Database(JavaPlugin plugin, String host, int port, String username, String password, String database)
     {
-        this.databaseName = database;
-
         try {
             String theLie = "mongodb+srv://" + username + ":" + password + "@" + host + "/" + database + "?retryWrites=true&w=majority";
 
-            ConnectionString connectionString = new ConnectionString(theLie); //Mongo connection string object
+            ConnectionString connectionString = new ConnectionString(theLie);
 
-            MongoClientSettings settings = MongoClientSettings.builder() //Settings building
-                    .uuidRepresentation(UuidRepresentation.STANDARD) //How to store UUIDs?
-                    .applyConnectionString(connectionString) //Where we are connecting
-                    .serverApi(ServerApi.builder() //Serverapi building
-                            .version(ServerApiVersion.V1).build()) //What the serverapi version is
+            MongoClientSettings settings = MongoClientSettings.builder()
+                    .uuidRepresentation(UuidRepresentation.STANDARD)
+                    .applyConnectionString(connectionString)
+                    .serverApi(ServerApi.builder()
+                            .version(ServerApiVersion.V1).build())
                     .build();
 
-            client = MongoClients.create(settings); //Actually start the connection
+            client = MongoClients.create(settings);
             datastore = Morphia.createDatastore(client, database, MapperOptions.builder()
-                    .discriminatorKey("") //Removes discriminator keys
-                    .dateStorage(DateStorage.SYSTEM_DEFAULT) //Set dateStorage format
+                    .discriminatorKey("")
+                    .dateStorage(DateStorage.SYSTEM_DEFAULT)
                     .build());
             datastore.ensureIndexes();
             datastore.getMapper().map(PlayerData.class);

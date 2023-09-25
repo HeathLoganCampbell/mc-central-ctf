@@ -1,5 +1,7 @@
 package dev.cobblesword.ctf.scoreboard;
 
+import dev.cobblesword.ctf.CaptureTheFlagPlugin;
+import dev.cobblesword.ctf.data.playerdata.types.PlayerData;
 import dev.cobblesword.ctf.game.Game;
 import dev.cobblesword.ctf.game.GameState;
 import dev.cobblesword.ctf.game.team.TeamType;
@@ -27,6 +29,7 @@ public class ScoreboardAdapter implements AssembleAdapter
     public List<String> getLines(Player player)
     {
         final List<String> toReturn = new ArrayList<>();
+        PlayerData playerData = CaptureTheFlagPlugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
 
         if(game.getState().WaitingToStart() || game.getState() == GameState.PREPARE_GAME)
         {
@@ -45,10 +48,11 @@ public class ScoreboardAdapter implements AssembleAdapter
             }
 
             toReturn.add(CC.bGold + "Your Stats");
-            toReturn.add("Wins");
-            toReturn.add("Games");
-            toReturn.add("Kills");
-            toReturn.add("Captures");
+            toReturn.add(playerData.getTotalWins() + " Wins");
+            toReturn.add(playerData.getTotalGames() + " Games");
+            toReturn.add(playerData.getTotalKills() + " Kills");
+            toReturn.add(playerData.getTotalCaptures() +  " Captures");
+            toReturn.add(CC.gold + playerData.getGold() +  " Gold");
         }
         else if(game.getState().InProgress())
         {

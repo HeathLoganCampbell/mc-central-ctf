@@ -25,6 +25,8 @@ public class CaptureTheFlagPlugin extends JavaPlugin
 
     private static Database database;
 
+    private static PlayerDataManager playerDataManager;
+
     @Override
     public void onEnable()
     {
@@ -55,11 +57,16 @@ public class CaptureTheFlagPlugin extends JavaPlugin
 
         database.done();
 
-        PlayerDataManager playerDataManager = new PlayerDataManager(this, playerDataRepository);
+        playerDataManager = new PlayerDataManager(this, playerDataRepository);
     }
 
     public static Database getMongoDatabase() {
         return database;
+    }
+
+    public static PlayerDataManager getPlayerDataManager()
+    {
+        return playerDataManager;
     }
 
     @Override

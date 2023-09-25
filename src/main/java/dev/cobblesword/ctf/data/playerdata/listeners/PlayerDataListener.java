@@ -29,7 +29,7 @@ public class PlayerDataListener implements Listener
     @EventHandler
     public void onJoin(PlayerJoinEvent e)
     {
-        this.playerDataManager.onJoin(e.getPlayer().getUniqueId());
+        this.playerDataManager.onJoin(e.getPlayer());
     }
 
     @EventHandler
