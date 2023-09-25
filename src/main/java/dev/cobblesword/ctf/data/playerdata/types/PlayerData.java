@@ -50,4 +50,9 @@ public class PlayerData
     {
         this.totalGames += games;
     }
+
+    public String getPlayerLevelDisplay()
+    {
+        return "[" + level + "]";
+    }
 }

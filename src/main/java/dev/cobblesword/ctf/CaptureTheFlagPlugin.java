@@ -1,5 +1,6 @@
 package dev.cobblesword.ctf;
 
+import dev.cobblesword.ctf.chat.ChatModule;
 import dev.cobblesword.ctf.data.playerdata.PlayerDataManager;
 import dev.cobblesword.ctf.database.Database;
 import dev.cobblesword.ctf.database.DatabaseConfig;
@@ -58,6 +59,8 @@ public class CaptureTheFlagPlugin extends JavaPlugin
         database.done();
 
         playerDataManager = new PlayerDataManager(this, playerDataRepository);
+
+        new ChatModule(this);
     }
 
     public static Database getMongoDatabase() {
