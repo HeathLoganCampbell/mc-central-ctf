@@ -71,4 +71,9 @@ public class PlayerDataManager
     {
         return this.playerDataMap.get(uuid);
     }
+
+    public void commit(PlayerData playerData)
+    {
+        this.playerDataRepository.save(playerData);
+    }
 }

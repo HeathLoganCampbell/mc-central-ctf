@@ -335,6 +335,8 @@ public class Game implements Runnable
             playerData.addGames(1);
             playerData.addWins(this.winningTeam == team ? 1 : 0);
             playerData.addCaptures(playerGameData.getCaptures());
+
+            CaptureTheFlagPlugin.getPlayerDataManager().commit(playerData);
         }
     }
 
