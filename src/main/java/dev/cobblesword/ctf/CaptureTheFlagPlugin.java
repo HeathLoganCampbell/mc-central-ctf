@@ -14,6 +14,7 @@ import io.github.thatkawaiisam.assemble.Assemble;
 import io.github.thatkawaiisam.assemble.AssembleStyle;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CaptureTheFlagPlugin extends JavaPlugin
@@ -75,6 +76,10 @@ public class CaptureTheFlagPlugin extends JavaPlugin
     @Override
     public void onDisable()
     {
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            onlinePlayer.kickPlayer("Server Restart");
+        }
+
         System.out.println("Bye world");
     }
 }
