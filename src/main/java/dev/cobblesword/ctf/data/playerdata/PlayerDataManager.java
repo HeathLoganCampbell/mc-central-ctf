@@ -51,6 +51,7 @@ public class PlayerDataManager
             return;
         }
 
+
         player.setLevel(playerData.getLevel());
 
         playerData.setConnectionStatus(PlayerConnectionStatus.ONLINE);
