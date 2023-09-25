@@ -26,7 +26,7 @@ public class PlayerDataManager
 
     public void onFetch(UUID uuid, String username)
     {
-        PlayerData playerData = this.playerDataRepository.get(uuid.toString());
+        PlayerData playerData = this.playerDataRepository.get(uuid);
 
         if(playerData == null)
         {
