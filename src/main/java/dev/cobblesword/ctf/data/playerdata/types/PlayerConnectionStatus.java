@@ -1,4 +1,4 @@
-package dev.cobblesword.ctf.playerdata.types;
+package dev.cobblesword.ctf.data.playerdata.types;
 
 public enum PlayerConnectionStatus
 {

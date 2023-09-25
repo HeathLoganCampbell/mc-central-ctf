@@ -1,6 +1,6 @@
-package dev.cobblesword.ctf.playerdata.listeners;
+package dev.cobblesword.ctf.data.playerdata.listeners;
 
-import dev.cobblesword.ctf.playerdata.PlayerDataManager;
+import dev.cobblesword.ctf.data.playerdata.PlayerDataManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,7 +23,7 @@ public class PlayerDataListener implements Listener
     @EventHandler
     public void onLogin(AsyncPlayerPreLoginEvent e)
     {
-        this.playerDataManager.onFetch(e.getUniqueId());
+        this.playerDataManager.onFetch(e.getUniqueId(), e.getName());
     }
 
     @EventHandler

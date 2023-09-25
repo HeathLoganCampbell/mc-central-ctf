@@ -1,8 +1,13 @@
 package dev.cobblesword.ctf;
 
+import dev.cobblesword.ctf.data.playerdata.PlayerDataManager;
+import dev.cobblesword.ctf.database.Database;
+import dev.cobblesword.ctf.database.DatabaseConfig;
 import dev.cobblesword.ctf.game.Game;
 import dev.cobblesword.ctf.lobby.Lobby;
+import dev.cobblesword.ctf.data.playerdata.database.PlayerDataRepository;
 import dev.cobblesword.ctf.scoreboard.ScoreboardAdapter;
+import dev.cobblesword.libraries.common.config.ConfigManager;
 import dev.cobblesword.libraries.common.world.Worlds;
 import io.github.thatkawaiisam.assemble.Assemble;
 import io.github.thatkawaiisam.assemble.AssembleStyle;
@@ -18,10 +23,14 @@ public class CaptureTheFlagPlugin extends JavaPlugin
         return instance;
     }
 
+    private static Database database;
+
     @Override
     public void onEnable()
     {
         instance = this;
+
+        ConfigManager configManager = new ConfigManager(this, this,"dev.cobblesword.ctf");
 
         World lobbyWorld = Bukkit.getWorld("lobby");
         Worlds.initStaticWorld(lobbyWorld, false);
@@ -36,7 +45,21 @@ public class CaptureTheFlagPlugin extends JavaPlugin
         assemble.setTicks(2);
         assemble.setAssembleStyle(AssembleStyle.MODERN);
 
-        System.out.println("Hello world");
+        database = new Database(this, DatabaseConfig.HOST,
+            Integer.parseInt(DatabaseConfig.PORT),
+            DatabaseConfig.USERNAME,
+            DatabaseConfig.PASSWORD,
+            DatabaseConfig.DATABASE);
+
+        PlayerDataRepository playerDataRepository = new PlayerDataRepository(database);
+
+        database.done();
+
+        PlayerDataManager playerDataManager = new PlayerDataManager(this, playerDataRepository);
+    }
+
+    public static Database getMongoDatabase() {
+        return database;
     }
 
     @Override

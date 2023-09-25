@@ -3,8 +3,7 @@ package dev.cobblesword.ctf.game;
 import dev.cobblesword.ctf.CaptureTheFlagPlugin;
 import dev.cobblesword.ctf.flag.Flag;
 import dev.cobblesword.ctf.flag.FlagListener;
-import dev.cobblesword.ctf.game.stats.GameStats;
-import dev.cobblesword.ctf.game.stats.PlayerGameStats;
+import dev.cobblesword.ctf.data.gamedata.types.PlayerGameData;
 import dev.cobblesword.ctf.game.team.Team;
 import dev.cobblesword.ctf.game.team.TeamManager;
 import dev.cobblesword.ctf.game.team.TeamType;
@@ -32,9 +31,7 @@ public class Game implements Runnable
 
     private GameMap gameMap;
 
-    private GameStats gameStats;
-
-    private HashMap<UUID, PlayerGameStats> playerGameStatsMap = new HashMap<>();
+    private HashMap<UUID, PlayerGameData> playerGameStatsMap = new HashMap<>();
 
     private Team winningTeam;
 
@@ -49,7 +46,6 @@ public class Game implements Runnable
 
         // Load map
         this.gameWorld = Worlds.createEmptyWorld("gameWorld");
-        this.gameStats = new GameStats();
         this.teamManager = new TeamManager();
 
         this.gameMap = new GameMap(gameWorld);
@@ -63,7 +59,7 @@ public class Game implements Runnable
     public void join(Player player)
     {
         gamers.add(player);
-        playerGameStatsMap.put(player.getUniqueId(), new PlayerGameStats(player.getName(), player.getUniqueId()));
+        playerGameStatsMap.put(player.getUniqueId(), new PlayerGameData(player.getName(), player.getUniqueId()));
         player.setGameMode(GameMode.ADVENTURE);
         System.out.println("Game> " + player.getName() + " joined");
     }
@@ -241,7 +237,6 @@ public class Game implements Runnable
             setUpMap();
 
             this.setState(GameState.IN_PROGRESS);
-            this.gameStats.setStartTimestamp(System.currentTimeMillis());
         }
 
         boolean changeState = secondsRemaining == 0;
@@ -255,7 +250,6 @@ public class Game implements Runnable
             }
 
             broadcastChampion();
-            this.gameStats.setEndTimestamp(System.currentTimeMillis());
         }
 
         if(changeState)
@@ -327,7 +321,7 @@ public class Game implements Runnable
         return this.state;
     }
 
-    public PlayerGameStats getPlayerGameStats(Player player)
+    public PlayerGameData getPlayerGameStats(Player player)
     {
         return this.playerGameStatsMap.get(player.getUniqueId());
     }

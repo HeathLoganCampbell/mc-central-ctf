@@ -1,18 +1,22 @@
-package dev.cobblesword.ctf.playerdata.types;
+package dev.cobblesword.ctf.data.playerdata.types;
 
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
 
+@Entity("players")
 @Getter @Setter
 public class PlayerData
 {
+    @Id
     private UUID uuid;
     private String name;
     private PlayerConnectionStatus connectionStatus = PlayerConnectionStatus.OFFLINE;
 
-    private int coins;
+    private int gold;
     private int exp;
     private int level;
 

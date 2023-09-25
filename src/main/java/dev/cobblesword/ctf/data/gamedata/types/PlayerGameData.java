@@ -1,4 +1,4 @@
-package dev.cobblesword.ctf.game.stats;
+package dev.cobblesword.ctf.data.gamedata.types;
 
 import dev.cobblesword.ctf.game.team.TeamType;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter @Setter
 @Data
-public class PlayerGameStats
+public class PlayerGameData
 {
     private int id;
     private int playerId;

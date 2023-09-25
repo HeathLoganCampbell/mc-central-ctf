@@ -1,21 +1,18 @@
-package dev.cobblesword.ctf.game.stats;
+package dev.cobblesword.ctf.data.gamedata.types;
 
 import dev.cobblesword.ctf.game.GameState;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-public class GameStats
+public class GameData
 {
-    private int id;
+    private String id;
     private String mapName;
     private long startTimestamp = Long.MIN_VALUE;
     private long endTimestamp = Long.MIN_VALUE;
     private GameState gameState;
 
-    private List<PlayerGameStats> players = new ArrayList<>();
+    private TeamGameData redTeamData;
+    private TeamGameData blueTeamData;
 }
