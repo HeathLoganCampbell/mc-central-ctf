@@ -53,13 +53,13 @@ public class Flag
         this.setFlagCarrier(player);
         this.applyFlagKit(player);
         this.flagSpawnLocation.getWorld().strikeLightningEffect(this.flagSpawnLocation);
-        Bukkit.broadcastMessage(CC.highlight(player.getName()) + " has stolen the flag");
+        Bukkit.broadcastMessage(CC.highlight(player.getDisplayName()) + " has stolen the flag");
     }
 
     public void dropFlag()
     {
         this.spawn();
-        Bukkit.broadcastMessage(CC.highlight(this.flagCarrier.getName()) + " has dropped the flag");
+        Bukkit.broadcastMessage(CC.highlight(this.flagCarrier.getDisplayName()) + " has dropped the flag");
         this.flagCarrier = null;
     }
 
