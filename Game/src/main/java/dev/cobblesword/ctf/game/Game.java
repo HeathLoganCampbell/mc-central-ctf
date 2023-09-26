@@ -128,31 +128,29 @@ public class Game implements Runnable
 
     private void broadcastChampion()
     {
-        if(winningTeam != null)
-        {
-            String gameId = "GAME#12332";
+        String gameId = "GAME#12332";
 
-            Bukkit.broadcastMessage(CC.bYellow + CC.strikeThrough + "=============[" + CC.r + " " + CC.bAqua + gameId + " " + CC.bYellow + CC.strikeThrough + "]=============");
-            Bukkit.broadcastMessage(CC.bYellow + "                 " + winningTeam.getChatColor() + winningTeam.getName() + " has won!");
-            Bukkit.broadcastMessage(CC.gray + "                 Reason: Flag Capture");
-            Bukkit.broadcastMessage(CC.bYellow + "");
-            Bukkit.broadcastMessage(CC.bYellow + "      Flag Capture      Most kills" );
-            Bukkit.broadcastMessage(CC.bYellow + "+38 Coins");
-            Bukkit.broadcastMessage(CC.bYellow + CC.strikeThrough + "========================================");
-        }
-        else
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers())
         {
-            Bukkit.broadcastMessage(CC.bYellow + CC.strikeThrough + "=====================================");
-            Bukkit.broadcastMessage(CC.bYellow + "");
-            Bukkit.broadcastMessage(CC.bYellow + " Draw!");
-            Bukkit.broadcastMessage(CC.gray + "Reason: Both teams have equal kills");
-            Bukkit.broadcastMessage(CC.bYellow + "");
-            Bukkit.broadcastMessage(CC.bYellow + "Flag Capture" );
-            Bukkit.broadcastMessage(CC.bYellow + "Most kills" );
-            Bukkit.broadcastMessage(CC.bYellow + "    ");
-            Bukkit.broadcastMessage(CC.bYellow + "+38 Coins");
-            Bukkit.broadcastMessage(CC.bYellow + "");
-            Bukkit.broadcastMessage(CC.bYellow + CC.strikeThrough + "=====================================");
+            Team playerTeam = this.getPlayerTeam(onlinePlayer);
+
+            onlinePlayer.sendMessage(CC.bYellow + CC.strikeThrough + "=============[" + CC.r + " " + CC.bAqua + gameId + " " + CC.bYellow + CC.strikeThrough + "]=============");
+            onlinePlayer.sendMessage(CC.bYellow + "");
+            if(winningTeam != playerTeam)
+            {
+                onlinePlayer.sendMessage(CC.bYellow + "                 VICTORY!");
+            }
+            if(winningTeam != null)
+            {
+                onlinePlayer.sendMessage(CC.bGray + "                 DRAW!");
+            }
+            else
+            {
+                onlinePlayer.sendMessage(CC.bRed + "                 DEFEAT");
+            }
+            onlinePlayer.sendMessage(CC.bYellow + "");
+            onlinePlayer.sendMessage(CC.bYellow + "               " + this.getGoldEarned(onlinePlayer) + " gold");
+            onlinePlayer.sendMessage(CC.bYellow + CC.strikeThrough + "========================================");
         }
     }
 
@@ -325,6 +323,21 @@ public class Game implements Runnable
         winningTeam = playerTeam;
     }
 
+    private int getGoldEarned(Player player)
+    {
+        PlayerGameData playerGameData = playerGameStatsMap.get(player.getUniqueId());
+        Team team = this.getPlayerTeam(player);
+
+        int didWin = this.winningTeam == team ? 1 : 0;
+
+        int goldPerKill = 20;
+        int goldPerWin = 500;
+        int goldPerCapture = 300;
+
+        int goldToGive = (goldPerKill * playerGameData.getKills()) + (goldPerWin * didWin) + (goldPerCapture * playerGameData.getCaptures());
+        return goldToGive;
+    }
+
     public void onGiveRewards()
     {
         for (Player player : Bukkit.getOnlinePlayers())
@@ -333,11 +346,15 @@ public class Game implements Runnable
             PlayerData playerData = CaptureTheFlagPlugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
             Team team = this.getPlayerTeam(player);
 
+            int didWin = this.winningTeam == team ? 1 : 0;
+
             playerData.addKills(playerGameData.getKills());
             playerData.addDeaths(playerGameData.getDeaths());
             playerData.addGames(1);
-            playerData.addWins(this.winningTeam == team ? 1 : 0);
+            playerData.addWins(didWin);
             playerData.addCaptures(playerGameData.getCaptures());
+
+            playerData.addGold(getGoldEarned(player));
 
             CaptureTheFlagPlugin.getPlayerDataManager().commit(playerData);
         }

@@ -55,4 +55,9 @@ public class PlayerData
     {
         return "[" + level + "]";
     }
+
+    public void addGold(int gold)
+    {
+        this.gold += gold;
+    }
 }
