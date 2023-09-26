@@ -16,10 +16,15 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class CompassModule implements Listener
 {
     @Getter @Setter
     private Game game;
+
+    private HashMap<UUID, TeamType> targetTeamFlag = new HashMap<UUID, TeamType>();
 
     public CompassModule(JavaPlugin plugin)
     {
@@ -42,9 +47,15 @@ public class CompassModule implements Listener
         if(game == null) return;
 
         Team yourTeam = game.getPlayerTeam(player);
-        Team otherTeam = game.getTeam(yourTeam.getTeamType() == TeamType.BLUE ? TeamType.RED : TeamType.BLUE);
 
-        player.setCompassTarget(otherTeam.getFlag().getActiveFlagLocation());
-        player.sendMessage(CC.green + "Pointing at " + otherTeam.getName() + "'s flag");
+        TeamType currentTargetedTeamType = yourTeam.getTeamType();
+        TeamType pointingTeam = targetTeamFlag.getOrDefault(player.getUniqueId(), currentTargetedTeamType);
+        TeamType targetTeamType = pointingTeam == TeamType.BLUE ? TeamType.RED : TeamType.BLUE;
+        targetTeamFlag.put(player.getUniqueId(), targetTeamType);
+
+        Team targetTeam = game.getTeam(targetTeamType);
+
+        player.setCompassTarget(targetTeam.getFlag().getActiveFlagLocation());
+        player.sendMessage(targetTeam.getChatColor() + "Pointing at " + targetTeam.getName() + "'s flag");
     }
 }
