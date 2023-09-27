@@ -87,6 +87,7 @@ public class GameManager implements Runnable
                 player.eject();
             }
 
+            player.setDisplayName(player.getName());
             lobbyModule.applyLobbyKit(player);
             player.teleport(spawnLocation);
         }
@@ -95,6 +96,12 @@ public class GameManager implements Runnable
     public void setUpNextGame()
     {
         this.game = new Game(CaptureTheFlagPlugin.getInstance());
+
+        for (Player player : Bukkit.getOnlinePlayers())
+        {
+            // Add to next game
+            this.game.join(player);
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package dev.cobblesword.ctf.scoreboard;
 
 import dev.assemble.AssembleAdapter;
 import dev.cobblesword.ctf.CaptureTheFlagPlugin;
+import dev.cobblesword.ctf.data.gamedata.types.PlayerGameData;
 import dev.cobblesword.ctf.data.playerdata.types.PlayerData;
 import dev.cobblesword.ctf.game.Game;
 import dev.cobblesword.ctf.game.GameManager;
@@ -69,9 +70,14 @@ public class ScoreboardAdapter implements AssembleAdapter
             toReturn.add("  Kills: " + game.getTeam(TeamType.BLUE).getTotalKills());
             toReturn.add(" ");
 
-            toReturn.add(CC.bGold + "Your Stats");
-            toReturn.add(game.getPlayerGameStats(player).getKills() + " Kills");
-            toReturn.add(game.getPlayerGameStats(player).getDeaths() + " Deaths");
+            PlayerGameData playerGameStats = game.getPlayerGameStats(player);
+
+            if(playerGameStats != null)
+            {
+                toReturn.add(CC.bGold + "Your Stats");
+                toReturn.add(playerGameStats.getKills() + " Kills");
+                toReturn.add(playerGameStats.getDeaths() + " Deaths");
+            }
         }
 
         toReturn.add(" ");

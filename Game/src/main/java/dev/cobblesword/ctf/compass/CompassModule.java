@@ -33,6 +33,7 @@ public class CompassModule extends Module
         Sync.get().interval(40).run(() -> {
             Game game = CaptureTheFlagPlugin.getInstance().getGameManager().getGame();
             if(game == null) return;
+            if(!game.isInProgress()) return;
 
             for (Player player : Bukkit.getOnlinePlayers())
             {
@@ -76,6 +77,7 @@ public class CompassModule extends Module
         if(item.getType() != Material.COMPASS) return;
         Game game = CaptureTheFlagPlugin.getInstance().getGameManager().getGame();
         if(game == null) return;
+        if(!game.isInProgress()) return;
 
         TeamType targetTeamType = getTargetTeam(player);
         targetTeamFlag.put(player.getUniqueId(), targetTeamType);
