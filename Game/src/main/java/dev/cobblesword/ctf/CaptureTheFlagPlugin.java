@@ -51,10 +51,8 @@ public class CaptureTheFlagPlugin extends JavaPlugin
 
         ConfigManager configManager = new ConfigManager(this, this,"dev.cobblesword.ctf");
 
-        World lobbyWorld = Bukkit.getWorld("lobby");
-        Worlds.initStaticWorld(lobbyWorld, false);
 
-        LobbyModule lobbyModule = new LobbyModule(this, lobbyWorld);
+        new LobbyModule(this).enable();
 
         Assemble assemble = new Assemble(this, new ScoreboardAdapter());
         assemble.setTicks(2);
