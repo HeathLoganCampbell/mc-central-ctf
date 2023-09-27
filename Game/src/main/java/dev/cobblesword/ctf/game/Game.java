@@ -95,6 +95,12 @@ public class Game implements Runnable
 
         for (Player onlinePlayer : onlinePlayersList)
         {
+            Team currentTeam = this.getPlayerTeam(onlinePlayer);
+            if(currentTeam != null)
+            {
+                continue;
+            }
+
             Team team = teamManager.choiceTeam();
             teamManager.addPlayerToTeam(team.getTeamType(), onlinePlayer);
         }
