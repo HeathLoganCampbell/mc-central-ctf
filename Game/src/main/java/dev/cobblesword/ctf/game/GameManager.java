@@ -177,6 +177,7 @@ public class GameManager implements Runnable
 
             if(state == GameState.CELEBRATE)
             {
+                this.game.onExit();
                 this.setState(GameState.WAITING_FOR_PLAYERS);
                 backToLobby();
                 setUpNextGame();

@@ -284,10 +284,14 @@ public class Game
             handleTimeoutWinner();
         }
 
-        HandlerList.unregisterAll(this.gameListener);
         this.setInProgress(false);
         onGiveRewards();
         broadcastChampion();
+    }
+
+    public void onExit()
+    {
+        HandlerList.unregisterAll(this.gameListener);
     }
 
     public boolean hasWinner()
