@@ -11,6 +11,7 @@ import dev.cobblesword.ctf.game.team.TeamType;
 import dev.cobblesword.ctf.map.GameMap;
 import dev.cobblesword.libraries.common.messages.CC;
 import dev.cobblesword.libraries.common.world.Worlds;
+import dev.cobblesword.libraries.modules.levels.LevelModule;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.*;
@@ -138,6 +139,8 @@ public class Game
 
         for (Player onlinePlayer : this.gamers)
         {
+            PlayerData playerData = CaptureTheFlagPlugin.getPlayerDataManager().getPlayerData(onlinePlayer.getUniqueId());
+
             players.add(onlinePlayer.getName());
             Team playerTeam = this.getPlayerTeam(onlinePlayer);
 
@@ -156,8 +159,8 @@ public class Game
                 onlinePlayer.sendMessage(CC.bRed + "                 DEFEAT");
             }
             onlinePlayer.sendMessage(CC.bYellow + "");
-            onlinePlayer.sendMessage(CC.bYellow + "               " + this.getGoldEarned(onlinePlayer) + " gold");
-            onlinePlayer.sendMessage(CC.bYellow + "               " + this.getExpEarned(onlinePlayer) + " exp");
+            onlinePlayer.sendMessage(CC.bYellow + "               +" + this.getGoldEarned(onlinePlayer) + " gold");
+            onlinePlayer.sendMessage(CC.bYellow + "               " + this.getExpEarned(onlinePlayer) + " exp ( " + playerData.getExp() + " / " + LevelModule.getExpRequired(playerData.getLevel() + 1) + " )");
             onlinePlayer.sendMessage(CC.bYellow + CC.strikeThrough + "========================================");
         }
     }

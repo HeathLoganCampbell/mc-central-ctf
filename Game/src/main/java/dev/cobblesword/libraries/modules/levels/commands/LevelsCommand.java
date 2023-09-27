@@ -41,6 +41,29 @@ public class LevelsCommand
         }
     }
 
+    @Command(name = "level.set", aliases = { "lvl.set" }, description = "set experience to a player", usage = "/level addexp <Player> <expAmount>", permission = "levels.addexp")
+    public void onSetLevel(CommandArgs args) {
+        if(args.length() != 2) {
+            args.getSender().sendMessage("/level set <Player> <level>");
+            return;
+        }
+
+        String playerName = args.getArgs(0);
+        Player player = Bukkit.getPlayer(playerName);
+        if(player == null) {
+            args.getSender().sendMessage("Player is not online");
+            return;
+        }
+
+        try {
+            int expAmount = Integer.parseInt(args.getArgs(1));
+            this.levelModule.addExp(player, expAmount);
+            args.getSender().sendMessage(CC.green + "Added " + expAmount + " experience to " + playerName);
+        } catch (NumberFormatException e) {
+            args.getSender().sendMessage("Experience amount must be a number");
+        }
+    }
+
     @Command(name = "level.expneeded", aliases = { "lvl.expneeded" }, description = "View experience needed for a level", usage = "/level expneeded <level>", permission = "levels.expneeded")
     public void onExpNeeded(CommandArgs args) {
         if(args.length() != 1) {
@@ -57,7 +80,7 @@ public class LevelsCommand
         }
     }
 
-    @Command(name = "level", aliases = { "lvl" }, description = "View experience needed for a level", usage = "/level expneeded <level>", permission = "levels.expneeded")
+    @Command(name = "level", aliases = { "lvl" }, description = "View experience needed for a level", usage = "/level <Player>")
     public void onLevel(CommandArgs args) {
         Player targetPlayer = args.getPlayer();
 

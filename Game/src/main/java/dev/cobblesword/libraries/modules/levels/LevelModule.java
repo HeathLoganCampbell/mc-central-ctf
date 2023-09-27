@@ -97,7 +97,7 @@ public class LevelModule extends Module
         }
     }
 
-    public int getExpRequired(long level)
+    public static int getExpRequired(long level)
     {
         int expRequired = 5000;
 
