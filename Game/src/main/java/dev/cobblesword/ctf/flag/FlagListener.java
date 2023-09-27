@@ -26,7 +26,7 @@ public class FlagListener implements Listener
 
     public void handleFlagPickUpCheck()
     {
-        if(this.game.getState() != GameState.IN_PROGRESS)
+        if(!this.game.isInProgress())
         {
             return;
         }
@@ -60,7 +60,7 @@ public class FlagListener implements Listener
 
     public void handleFlagCaptureCheck()
     {
-        if(this.game.getState() != GameState.IN_PROGRESS)
+        if(!this.game.isInProgress())
         {
             return;
         }
@@ -87,7 +87,7 @@ public class FlagListener implements Listener
     @EventHandler
     public void onDeath(PlayerDeathEvent e)
     {
-        if(this.game.getState() != GameState.IN_PROGRESS)
+        if(!this.game.isInProgress())
         {
             return;
         }

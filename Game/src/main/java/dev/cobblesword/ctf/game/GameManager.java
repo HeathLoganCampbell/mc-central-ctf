@@ -2,17 +2,181 @@ package dev.cobblesword.ctf.game;
 
 import dev.cobblesword.ctf.CaptureTheFlagPlugin;
 import dev.cobblesword.ctf.game.commands.GameCommands;
+import dev.cobblesword.libraries.common.messages.CC;
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.FireworkEffect;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class GameManager
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Stream;
+
+public class GameManager implements Runnable
 {
     @Getter
     private Game game;
 
-    public GameManager()
+    @Getter
+    private GameState state = GameState.SETTING_UP;
+
+    @Getter
+    private int secondsRemaining = -1;
+
+    @Getter
+    private List<Player> gamers = new ArrayList<Player>();
+
+    public GameManager(JavaPlugin plugin)
     {
         this.game = new Game(CaptureTheFlagPlugin.getInstance());
 
         CaptureTheFlagPlugin.getInstance().getCommandFramework().registerCommands(new GameCommands());
+
+        this.setState(GameState.WAITING_FOR_PLAYERS);
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, 20L, 20L);
+    }
+
+    public GameState getState() {
+        return this.state;
+    }
+
+    public void setState(GameState state)
+    {
+        System.out.println(this.state + " => " + state);
+        this.state = state;
+        secondsRemaining = state.getSeconds();
+    }
+
+    public void join(Player player)
+    {
+        this.gamers.add(player);
+
+        if(game != null)
+        {
+            this.game.join(player);
+        }
+    }
+
+    public void leave(Player player)
+    {
+        this.gamers.remove(player);
+
+        if(game != null)
+        {
+            this.game.leave(player);
+        }
+    }
+
+    @Override
+    public void run()
+    {
+        int minPlayers = 2;
+
+        if(state == GameState.WAITING_FOR_PLAYERS)
+        {
+            if(gamers.size() >= minPlayers)
+            {
+                System.out.println("has enough players");
+
+                this.setState(GameState.COUNTDOWN);
+            }
+        }
+
+        if(state == GameState.COUNTDOWN)
+        {
+            if(gamers.size() < minPlayers)
+            {
+                Bukkit.broadcastMessage(CC.red + "No enough players to start. Requires " + minPlayers + " players to start!");
+                this.setState(GameState.WAITING_FOR_PLAYERS);
+            }
+        }
+
+        if(state == GameState.CELEBRATE)
+        {
+            if(game.hasWinner())
+            {
+                for (UUID winnerUUID : this.game.getWinningTeam().getPlayers())
+                {
+                    Player player = Bukkit.getPlayer(winnerUUID);
+                    Firework firework = player.getWorld().spawn(player.getLocation(), Firework.class);
+                    FireworkMeta meta = firework.getFireworkMeta();
+                    meta.addEffect(FireworkEffect.builder()
+                            .withColor(this.game.getWinningTeam().getDyeColor())
+                            .with(FireworkEffect.Type.BALL)
+                            .build());
+                    firework.setFireworkMeta(meta);
+                }
+            }
+        }
+
+        if(state == GameState.PREPARE_GAME)
+        {
+            this.game.onStart();
+            this.setState(GameState.IN_PROGRESS);
+            this.game.setInProgress(true);
+        }
+
+        boolean changeState = secondsRemaining == 0;
+        if((game.hasWinner() || changeState) && state == GameState.IN_PROGRESS)
+        {
+            this.setState(GameState.CELEBRATE);
+
+            if(changeState && !game.hasWinner() )
+            {
+                game.onFinish(FinishReason.TIME_OUT);
+            }
+            else
+            {
+                game.onFinish(FinishReason.FLAG_CAPTURED);
+            }
+        }
+
+        if(changeState)
+        {
+            if(state == GameState.COUNTDOWN)
+            {
+                this.setState(GameState.PREPARE_GAME);
+            }
+
+            if(state == GameState.CELEBRATE)
+            {
+                this.setState(GameState.ENDED);
+                Bukkit.getServer().shutdown();
+            }
+        }
+
+
+        if(secondsRemaining != -1)
+        {
+            if(this.state == GameState.COUNTDOWN)
+            {
+                if(Stream.of(1, 2, 3, 4, 5, 10, 15, 30, 45, 60).anyMatch(sec -> secondsRemaining == sec))
+                {
+                    Bukkit.broadcastMessage(CC.gray + "Game starting in " + CC.highlight(this.secondsRemaining + "") + " seconds.");
+                }
+            }
+
+            if(this.state == GameState.IN_PROGRESS)
+            {
+                // minutes
+                if(Stream.of(60, (60 * 2), (60 * 5), (60 * 10)).anyMatch(sec -> secondsRemaining == sec))
+                {
+                    Bukkit.broadcastMessage(CC.gray + "Game ends in " + CC.highlight((this.secondsRemaining / 60) + "") + " minutes.");
+                }
+
+                // seconds
+                if(Stream.of(1, 2, 3, 4, 5, 10, 30, 45).anyMatch(sec -> secondsRemaining == sec))
+                {
+                    Bukkit.broadcastMessage(CC.gray + "Game ends in " + CC.highlight(this.secondsRemaining + "") + " seconds.");
+                }
+            }
+
+            secondsRemaining--;
+        }
     }
 }

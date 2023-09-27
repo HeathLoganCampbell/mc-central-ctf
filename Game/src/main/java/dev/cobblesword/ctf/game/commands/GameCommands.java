@@ -2,6 +2,7 @@ package dev.cobblesword.ctf.game.commands;
 
 import dev.cobblesword.ctf.CaptureTheFlagPlugin;
 import dev.cobblesword.ctf.game.Game;
+import dev.cobblesword.ctf.game.GameManager;
 import dev.cobblesword.ctf.game.GameState;
 import dev.cobblesword.ctf.game.team.Team;
 import dev.cobblesword.ctf.game.team.TeamType;
@@ -22,8 +23,8 @@ public class GameCommands
     @Command(name = "game.start", aliases = { "ctf.start", "CaptureTheFlag.start" }, description = "This is a test command", usage = "This is how you use it" , permission = "capturetheflag.start")
     public void onStartGame(CommandArgs args)
     {
-        Game game = CaptureTheFlagPlugin.getInstance().getGameManager().getGame();
-        game.setState(GameState.PREPARE_GAME);
+        GameManager gameManager = CaptureTheFlagPlugin.getInstance().getGameManager();
+        gameManager.setState(GameState.PREPARE_GAME);
         args.getSender().sendMessage("Starting game!");
     }
 
@@ -61,7 +62,7 @@ public class GameCommands
             game.getTeamManager().addPlayerToTeam(teamType, player);
             Team team = game.getPlayerTeam(player);
 
-            if(game.getState() == GameState.IN_PROGRESS)
+            if(game.isInProgress())
             {
                 team.spawn(player);
             }

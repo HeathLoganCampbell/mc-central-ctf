@@ -58,7 +58,7 @@ public class CaptureTheFlagPlugin extends JavaPlugin
         assemble.setTicks(2);
         assemble.setAssembleStyle(AssembleStyle.MODERN);
 
-        gameManager = new GameManager();
+        gameManager = new GameManager(this);
 
         database = new Database(this, DatabaseConfig.HOST,
             Integer.parseInt(DatabaseConfig.PORT),

@@ -4,6 +4,7 @@ import dev.assemble.AssembleAdapter;
 import dev.cobblesword.ctf.CaptureTheFlagPlugin;
 import dev.cobblesword.ctf.data.playerdata.types.PlayerData;
 import dev.cobblesword.ctf.game.Game;
+import dev.cobblesword.ctf.game.GameManager;
 import dev.cobblesword.ctf.game.GameState;
 import dev.cobblesword.ctf.game.team.TeamType;
 import dev.cobblesword.libraries.common.messages.CC;
@@ -24,21 +25,22 @@ public class ScoreboardAdapter implements AssembleAdapter
     {
         final List<String> toReturn = new ArrayList<>();
         PlayerData playerData = CaptureTheFlagPlugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
-        Game game = CaptureTheFlagPlugin.getInstance().getGameManager().getGame();
+        GameManager gameManager = CaptureTheFlagPlugin.getInstance().getGameManager();
+        Game game = gameManager.getGame();
 
-        if(game.getState().WaitingToStart() || game.getState() == GameState.PREPARE_GAME)
+        if(gameManager.getState().WaitingToStart() || gameManager.getState() == GameState.PREPARE_GAME)
         {
-            if (game.getState() == GameState.WAITING_FOR_PLAYERS)
+            if (gameManager.getState() == GameState.WAITING_FOR_PLAYERS)
             {
                 toReturn.add(CC.gray + "Waiting for players");
-                toReturn.add(game.getGamers().size() + "/30");
+                toReturn.add(gameManager.getGamers().size() + "/30");
                 toReturn.add(" ");
             }
 
-            if (game.getState() == GameState.COUNTDOWN)
+            if (gameManager.getState() == GameState.COUNTDOWN)
             {
                 toReturn.add(CC.gray + "Starting in");
-                toReturn.add(game.getSecondsRemaining() + " Seconds");
+                toReturn.add(gameManager.getSecondsRemaining() + " Seconds");
                 toReturn.add(" ");
             }
 
@@ -49,7 +51,7 @@ public class ScoreboardAdapter implements AssembleAdapter
             toReturn.add(playerData.getTotalCaptures() +  " Captures");
             toReturn.add(CC.gold + playerData.getGold() +  " Gold");
         }
-        else if(game.getState().InProgress())
+        else if(gameManager.getState().InProgress())
         {
             Player redFlagCarrier = game.getTeam(TeamType.RED).getFlag().getFlagCarrier();
             Player blueFlagCarrier = game.getTeam(TeamType.BLUE).getFlag().getFlagCarrier();
