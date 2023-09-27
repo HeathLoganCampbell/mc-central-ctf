@@ -254,6 +254,8 @@ public class Game
 
             playerData.addGold(getGoldEarned(player));
 
+            CaptureTheFlagPlugin.getInstance().getLevelModule().addExp(player, 100);
+
             CaptureTheFlagPlugin.getPlayerDataManager().commit(playerData);
         }
     }

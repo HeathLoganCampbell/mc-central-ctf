@@ -24,7 +24,6 @@ public class LevelModule extends Module
     {
         PlayerData playerData = CaptureTheFlagPlugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
         this.addExp(playerData, exp);
-        CaptureTheFlagPlugin.getPlayerDataManager().commit(playerData);
     }
 
     public float getPercentageTilNextLevel(Player player)

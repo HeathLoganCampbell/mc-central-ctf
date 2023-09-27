@@ -1,11 +1,13 @@
 package dev.cobblesword.libraries.modules.levels.commands;
 
 import dev.cobblesword.ctf.CaptureTheFlagPlugin;
+import dev.cobblesword.ctf.data.playerdata.types.PlayerData;
 import dev.cobblesword.libraries.common.commandframework.Command;
 import dev.cobblesword.libraries.common.commandframework.CommandArgs;
 import dev.cobblesword.libraries.common.messages.CC;
 import dev.cobblesword.libraries.modules.levels.LevelModule;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class LevelsCommand
@@ -53,5 +55,17 @@ public class LevelsCommand
         } catch (NumberFormatException e) {
             args.getSender().sendMessage("Level must be a number");
         }
+    }
+
+    @Command(name = "level", aliases = { "lvl" }, description = "View experience needed for a level", usage = "/level expneeded <level>", permission = "levels.expneeded")
+    public void onLevel(CommandArgs args) {
+        Player targetPlayer = args.getPlayer();
+
+        PlayerData playerData = CaptureTheFlagPlugin.getPlayerDataManager().getPlayerData(targetPlayer.getUniqueId());
+
+        CommandSender sender = args.getSender();
+        sender.sendMessage("Name: " + targetPlayer.getName());
+        sender.sendMessage("Level: " + playerData.getLevel());
+        sender.sendMessage("Exp: " + playerData.getExp() + " / " + levelModule.getExpRequired(playerData.getLevel() + 1));
     }
 }
