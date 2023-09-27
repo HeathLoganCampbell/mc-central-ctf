@@ -48,7 +48,7 @@ public class LevelModule extends Module
             playerData.setExp(remaining);
 
             //Update level
-            playerData.setLevel(playerData.getLevel() + 1);
+            playerData.setLevel(playerData.getLevel());
             levelsUp++;
             expRequired = this.getExpRequired(playerData.getLevel());
         }
