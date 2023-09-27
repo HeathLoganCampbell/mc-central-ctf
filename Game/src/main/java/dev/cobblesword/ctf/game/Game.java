@@ -149,7 +149,7 @@ public class Game implements Runnable
             {
                 onlinePlayer.sendMessage(CC.bYellow + "                 VICTORY!");
             }
-            if(winningTeam == null)
+            else if(winningTeam == null)
             {
                 onlinePlayer.sendMessage(CC.bGray + "                 DRAW!");
             }
@@ -168,7 +168,7 @@ public class Game implements Runnable
         Location spawn = this.getTeamManager().getTeam(TeamType.RED).getSpawn();
         for (Entity entity : spawn.getWorld().getEntities())
         {
-            if(entity instanceof LivingEntity || entity instanceof ArmorStand)
+            if(entity instanceof LivingEntity && !(entity instanceof Player))
             {
                 entity.remove();
             }

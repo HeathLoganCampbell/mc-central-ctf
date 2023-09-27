@@ -31,7 +31,7 @@ public class ScoreboardAdapter implements AssembleAdapter
             if (game.getState() == GameState.WAITING_FOR_PLAYERS)
             {
                 toReturn.add(CC.gray + "Waiting for players");
-                toReturn.add("1/30");
+                toReturn.add(game.getGamers().size() + "/30");
                 toReturn.add(" ");
             }
 

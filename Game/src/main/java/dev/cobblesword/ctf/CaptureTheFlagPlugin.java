@@ -10,6 +10,7 @@ import dev.cobblesword.ctf.chat.ChatModule;
 import dev.cobblesword.ctf.database.Database;
 import dev.cobblesword.ctf.database.DatabaseConfig;
 import dev.cobblesword.ctf.data.playerdata.database.PlayerDataRepository;
+import dev.cobblesword.ctf.perks.PerkModule;
 import dev.cobblesword.ctf.scoreboard.ScoreboardAdapter;
 import dev.cobblesword.libraries.common.commandframework.CommandFramework;
 import dev.cobblesword.libraries.common.config.ConfigManager;
@@ -73,6 +74,7 @@ public class CaptureTheFlagPlugin extends JavaPlugin
 
         new ChatModule(this);
         new CompassModule(this);
+        new PerkModule(this).onEnable();
 
         commandFramework.registerHelp();
     }
