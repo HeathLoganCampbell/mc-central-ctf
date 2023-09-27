@@ -13,8 +13,7 @@ import dev.cobblesword.libraries.common.messages.CC;
 import dev.cobblesword.libraries.common.world.Worlds;
 import lombok.Getter;
 import org.bukkit.*;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -166,6 +165,15 @@ public class Game implements Runnable
 
     private void setUpMap()
     {
+        Location spawn = this.getTeamManager().getTeam(TeamType.RED).getSpawn();
+        for (Entity entity : spawn.getWorld().getEntities())
+        {
+            if(entity instanceof LivingEntity || entity instanceof ArmorStand)
+            {
+                entity.remove();
+            }
+        }
+
         this.getTeam(TeamType.RED).getFlag().setUpFlag();
         this.getTeam(TeamType.BLUE).getFlag().setUpFlag();
 
@@ -249,13 +257,13 @@ public class Game implements Runnable
             redTeamSpawn1.getWorld().setTime(1200L);
             Worlds.initStaticWorld(redTeamSpawn1.getWorld(), true);
 
+            setUpMap();
+
             assignPlayersTeams();
 
             teleportTeamsToMap();
 
             broadcastGameInfo();
-
-            setUpMap();
 
             this.setState(GameState.IN_PROGRESS);
         }
