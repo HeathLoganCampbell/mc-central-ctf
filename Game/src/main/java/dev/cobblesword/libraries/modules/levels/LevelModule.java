@@ -53,11 +53,16 @@ public class LevelModule extends Module
             expRequired = this.getExpRequired(playerData.getLevel());
         }
 
+        Player player = Bukkit.getPlayer(playerData.getUuid());
+        if(player != null)
+        {
+            applyLevelToBar(player);
+        }
+
         if(levelsUp > 0)
         {
             new PlayerLeveUpEvent(playerData, levelsUp).call();
 
-            Player player = Bukkit.getPlayer(playerData.getUuid());
             if(player != null)
             {
                 Firework firework = player.getWorld().spawn(player.getLocation(), Firework.class);
@@ -86,6 +91,8 @@ public class LevelModule extends Module
 
                 firework.setFireworkMeta(meta);
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 1f, 1f);
+
+                applyLevelToBar(player);
             }
         }
     }
