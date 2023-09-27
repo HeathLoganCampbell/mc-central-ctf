@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public abstract class Module
+public abstract class Module implements Listener
 {
     private String name;
 

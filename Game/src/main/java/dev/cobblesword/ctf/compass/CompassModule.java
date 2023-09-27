@@ -5,6 +5,7 @@ import dev.cobblesword.ctf.game.Game;
 import dev.cobblesword.ctf.game.team.Team;
 import dev.cobblesword.ctf.game.team.TeamType;
 import dev.cobblesword.libraries.common.messages.CC;
+import dev.cobblesword.libraries.modules.serverstartup.Module;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -20,13 +21,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class CompassModule implements Listener
+public class CompassModule extends Module
 {
     private HashMap<UUID, TeamType> targetTeamFlag = new HashMap<UUID, TeamType>();
 
     public CompassModule(JavaPlugin plugin)
     {
-        Bukkit.getPluginManager().registerEvents(this, plugin);
+        super("Compass", plugin);
     }
 
     @EventHandler
@@ -56,5 +57,11 @@ public class CompassModule implements Listener
 
         player.setCompassTarget(targetTeam.getFlag().getActiveFlagLocation());
         player.sendMessage(targetTeam.getChatColor() + "Pointing at " + targetTeam.getName() + "'s flag");
+    }
+
+    @Override
+    protected void onEnable()
+    {
+        this.registerEvents(this);
     }
 }

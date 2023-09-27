@@ -73,8 +73,8 @@ public class CaptureTheFlagPlugin extends JavaPlugin
         playerDataManager = new PlayerDataManager(this, playerDataRepository);
 
         new ChatModule(this);
-        new CompassModule(this);
-        new PerkModule(this).onEnable();
+        new CompassModule(this).enable();
+        new PerkModule(this).enable();
 
         commandFramework.registerHelp();
     }
