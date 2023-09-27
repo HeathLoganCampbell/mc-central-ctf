@@ -100,7 +100,12 @@ public class LevelModule extends Module
     public int getExpRequired(long level)
     {
         int expRequired = 5000;
-        if(level == 1)
+
+        if(level == 0)
+        {
+            expRequired = 500;
+        }
+        else if(level == 1)
         {
             expRequired = 1000;
         }
