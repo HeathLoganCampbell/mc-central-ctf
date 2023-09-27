@@ -2,6 +2,7 @@ package dev.cobblesword.ctf;
 
 import dev.cobblesword.ctf.compass.CompassModule;
 import dev.cobblesword.ctf.data.playerdata.PlayerDataManager;
+import dev.cobblesword.ctf.data.playerdata.types.PlayerData;
 import dev.cobblesword.ctf.game.Game;
 import dev.cobblesword.ctf.lobby.LobbyModule;
 import dev.cobblesword.ctf.chat.ChatModule;
@@ -80,11 +81,7 @@ public class CaptureTheFlagPlugin extends JavaPlugin
     @Override
     public void onDisable()
     {
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers())
-        {
-            onlinePlayer.kickPlayer("Server Restart");
-        }
-
+        getPlayerDataManager().onDisable();
         System.out.println("Bye world");
     }
 }

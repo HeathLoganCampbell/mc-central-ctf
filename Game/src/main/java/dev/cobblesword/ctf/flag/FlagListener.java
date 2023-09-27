@@ -34,7 +34,7 @@ public class FlagListener implements Listener
         for (Flag flag : this.game.getAllFlags())
         {
             Location flagLoc = flag.getFlagSpawnLocation();
-            for (Player player : Bukkit.getOnlinePlayers())
+            for (Player player : this.game.getGamers())
             {
                 Location playerLoc = player.getLocation();
 

@@ -4,6 +4,7 @@ import dev.cobblesword.ctf.data.playerdata.listeners.PlayerDataListener;
 import dev.cobblesword.ctf.data.playerdata.types.PlayerConnectionStatus;
 import dev.cobblesword.ctf.data.playerdata.types.PlayerData;
 import dev.cobblesword.ctf.data.playerdata.database.PlayerDataRepository;
+import dev.cobblesword.libraries.common.task.Async;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,6 +23,7 @@ public class PlayerDataManager
         this.playerDataRepository = playerDataRepository;
         PlayerDataListener playerDataListener = new PlayerDataListener(this);
         Bukkit.getPluginManager().registerEvents(playerDataListener, plugin);
+        Async.get().run(this::commitAll).interval(20 * 60).execute();
     }
 
     public void onFetch(UUID uuid, String username)
@@ -75,5 +77,22 @@ public class PlayerDataManager
     public void commit(PlayerData playerData)
     {
         this.playerDataRepository.save(playerData);
+    }
+
+    private void commitAll()
+    {
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers())
+        {
+            PlayerData playerData = getPlayerData(onlinePlayer.getUniqueId());
+            if(playerData != null)
+            {
+                commit(playerData);
+            }
+        }
+    }
+
+    public void onDisable()
+    {
+        commitAll();
     }
 }

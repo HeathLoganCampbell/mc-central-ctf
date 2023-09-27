@@ -28,6 +28,7 @@ public class Game implements Runnable
     @Getter
     private int secondsRemaining = -1;
 
+    @Getter
     private List<Player> gamers = new ArrayList<Player>();
 
     private GameMap gameMap;
@@ -100,7 +101,7 @@ public class Game implements Runnable
 
     private void teleportTeamsToMap()
     {
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers())
+        for (Player onlinePlayer : this.gamers)
         {
             Team team = getPlayerTeam(onlinePlayer);
             if(team == null)
@@ -131,7 +132,7 @@ public class Game implements Runnable
         String gameId = "GAME#12332";
         List<String> players = new ArrayList<>();
 
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers())
+        for (Player onlinePlayer : this.gamers)
         {
             players.add(onlinePlayer.getName());
             Team playerTeam = this.getPlayerTeam(onlinePlayer);
@@ -218,7 +219,7 @@ public class Game implements Runnable
         {
             if(winningTeam != null)
             {
-                for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                for (Player onlinePlayer : this.gamers) {
                     Team playerTeam = this.getPlayerTeam(onlinePlayer);
                     if(playerTeam == winningTeam)
                     {
@@ -352,7 +353,7 @@ public class Game implements Runnable
 
     public void onGiveRewards()
     {
-        for (Player player : Bukkit.getOnlinePlayers())
+        for (Player player : this.gamers)
         {
             PlayerGameData playerGameData = playerGameStatsMap.get(player.getUniqueId());
             PlayerData playerData = CaptureTheFlagPlugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
