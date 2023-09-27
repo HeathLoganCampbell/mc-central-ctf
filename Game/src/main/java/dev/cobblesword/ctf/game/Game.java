@@ -160,7 +160,7 @@ public class Game
             }
             onlinePlayer.sendMessage(CC.bYellow + "");
             onlinePlayer.sendMessage(CC.bYellow + "               +" + this.getGoldEarned(onlinePlayer) + " gold");
-            onlinePlayer.sendMessage(CC.bYellow + "               " + this.getExpEarned(onlinePlayer) + " exp ( " + playerData.getExp() + " / " + LevelModule.getExpRequired(playerData.getLevel()) + " )");
+            onlinePlayer.sendMessage(CC.bYellow + "               +" + this.getExpEarned(onlinePlayer) + " exp ( " + playerData.getExp() + " / " + LevelModule.getExpRequired(playerData.getLevel()) + " )");
             onlinePlayer.sendMessage(CC.bYellow + CC.strikeThrough + "========================================");
         }
     }
