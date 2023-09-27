@@ -35,6 +35,12 @@ public class PlayerDataManager
             playerData = new PlayerData();
             playerData.setUuid(uuid);
             playerData.setName(username);
+            playerData.setFirstJoined(System.currentTimeMillis());
+        }
+
+        if(playerData.getFirstJoined() == Long.MIN_VALUE)
+        {
+            playerData.setFirstJoined(System.currentTimeMillis());
         }
 
         playerData.setConnectionStatus(PlayerConnectionStatus.CONNECTING);
@@ -86,6 +92,7 @@ public class PlayerDataManager
             PlayerData playerData = getPlayerData(onlinePlayer.getUniqueId());
             if(playerData != null)
             {
+                playerData.setLastOnline(System.currentTimeMillis());
                 commit(playerData);
             }
         }

@@ -26,6 +26,10 @@ public class PlayerData
     private int totalWins = 0;
     private int totalCaptures = 0;
 
+    private long lastOnline = Long.MIN_VALUE;
+
+    private long firstJoined = Long.MIN_VALUE;
+
     public void addKills(int kills)
     {
         this.totalKills += kills;
