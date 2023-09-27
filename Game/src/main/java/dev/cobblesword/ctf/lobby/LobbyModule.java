@@ -2,6 +2,7 @@ package dev.cobblesword.ctf.lobby;
 
 import dev.cobblesword.ctf.game.Game;
 import dev.cobblesword.libraries.common.task.Sync;
+import dev.cobblesword.libraries.common.utils.PlayerUtils;
 import dev.cobblesword.libraries.common.world.Worlds;
 import dev.cobblesword.libraries.modules.serverstartup.Module;
 import org.bukkit.Bukkit;
@@ -19,6 +20,11 @@ public class LobbyModule extends Module
         super("Lobby", plugin);
     }
 
+    public void applyLobbyKit(Player player)
+    {
+        PlayerUtils.reset(player);
+    }
+
     public boolean isInLobby(Player player)
     {
         return player.getWorld().equals(lobbyWorld);
@@ -32,9 +38,9 @@ public class LobbyModule extends Module
     @Override
     protected void onEnable()
     {
+        this.registerEvents(new LobbyListener(this));
+
         this.lobbyWorld = Bukkit.getWorld("lobby");
         Worlds.initStaticWorld(this.lobbyWorld, false);
-
-        this.registerEvents(this);
     }
 }

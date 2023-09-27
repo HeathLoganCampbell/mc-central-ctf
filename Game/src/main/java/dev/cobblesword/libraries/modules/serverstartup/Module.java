@@ -20,7 +20,9 @@ public abstract class Module implements Listener
 
     public void enable()
     {
+        System.out.println(name + ") Starting up...");
         onEnable();
+        System.out.println(name + ") Started.");
     }
 
     protected void registerEvents(Listener listener)

@@ -43,6 +43,9 @@ public class CaptureTheFlagPlugin extends JavaPlugin
     @Getter
     private GameManager gameManager;
 
+    @Getter
+    private LobbyModule lobbyModule;
+
     @Override
     public void onEnable()
     {
@@ -50,9 +53,6 @@ public class CaptureTheFlagPlugin extends JavaPlugin
         commandFramework = new CommandFramework(this);
 
         ConfigManager configManager = new ConfigManager(this, this,"dev.cobblesword.ctf");
-
-
-        new LobbyModule(this).enable();
 
         Assemble assemble = new Assemble(this, new ScoreboardAdapter());
         assemble.setTicks(2);
@@ -73,6 +73,8 @@ public class CaptureTheFlagPlugin extends JavaPlugin
         new ChatModule(this);
         new CompassModule(this).enable();
         new PerkModule(this).enable();
+        lobbyModule = new LobbyModule(this);
+        lobbyModule.enable();
 
         commandFramework.registerHelp();
     }

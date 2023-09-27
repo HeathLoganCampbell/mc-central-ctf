@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.*;
 import org.bukkit.entity.*;
+import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -41,10 +42,10 @@ public class Game
     @Getter
     private TeamManager teamManager;
 
+    private GameListener gameListener;
+
     public Game(JavaPlugin plugin)
     {
-        Bukkit.getPluginManager().registerEvents(new GameListener(this), plugin);
-
         // Load map
         this.gameWorld = Worlds.createEmptyWorld("gameWorld");
         this.teamManager = new TeamManager();
@@ -271,6 +272,9 @@ public class Game
         teleportTeamsToMap();
 
         broadcastGameInfo();
+
+        gameListener = new GameListener(this);
+        Bukkit.getPluginManager().registerEvents(gameListener, CaptureTheFlagPlugin.getInstance());
     }
 
     public void onFinish(FinishReason finishReason)
@@ -280,6 +284,8 @@ public class Game
             handleTimeoutWinner();
         }
 
+        HandlerList.unregisterAll(this.gameListener);
+        this.setInProgress(false);
         onGiveRewards();
         broadcastChampion();
     }

@@ -5,6 +5,7 @@ import dev.cobblesword.ctf.game.Game;
 import dev.cobblesword.ctf.game.team.Team;
 import dev.cobblesword.ctf.game.team.TeamType;
 import dev.cobblesword.libraries.common.messages.CC;
+import dev.cobblesword.libraries.common.task.Sync;
 import dev.cobblesword.libraries.modules.serverstartup.Module;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,36 @@ public class CompassModule extends Module
     public CompassModule(JavaPlugin plugin)
     {
         super("Compass", plugin);
+
+        Sync.get().interval(40).run(() -> {
+            Game game = CaptureTheFlagPlugin.getInstance().getGameManager().getGame();
+            if(game == null) return;
+
+            for (Player player : Bukkit.getOnlinePlayers())
+            {
+                TeamType targetTeamType = getTargetTeam(player);
+                if(targetTeamType == null)
+                {
+                    continue;
+                }
+
+                Team targetTeam = game.getTeam(targetTeamType);
+                player.setCompassTarget(targetTeam.getFlag().getActiveFlagLocation());
+            }
+        }).execute();
+    }
+
+    private TeamType getTargetTeam(Player player)
+    {
+        Game game = CaptureTheFlagPlugin.getInstance().getGameManager().getGame();
+        if(game == null) return null;
+
+        Team yourTeam = game.getPlayerTeam(player);
+
+        TeamType currentTargetedTeamType = yourTeam.getTeamType();
+        TeamType pointingTeam = targetTeamFlag.getOrDefault(player.getUniqueId(), currentTargetedTeamType);
+        TeamType targetTeamType = pointingTeam == TeamType.BLUE ? TeamType.RED : TeamType.BLUE;
+        return targetTeamType;
     }
 
     @EventHandler
@@ -46,11 +77,7 @@ public class CompassModule extends Module
         Game game = CaptureTheFlagPlugin.getInstance().getGameManager().getGame();
         if(game == null) return;
 
-        Team yourTeam = game.getPlayerTeam(player);
-
-        TeamType currentTargetedTeamType = yourTeam.getTeamType();
-        TeamType pointingTeam = targetTeamFlag.getOrDefault(player.getUniqueId(), currentTargetedTeamType);
-        TeamType targetTeamType = pointingTeam == TeamType.BLUE ? TeamType.RED : TeamType.BLUE;
+        TeamType targetTeamType = getTargetTeam(player);
         targetTeamFlag.put(player.getUniqueId(), targetTeamType);
 
         Team targetTeam = game.getTeam(targetTeamType);

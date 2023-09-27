@@ -2,10 +2,12 @@ package dev.cobblesword.ctf.game;
 
 import dev.cobblesword.ctf.CaptureTheFlagPlugin;
 import dev.cobblesword.ctf.game.commands.GameCommands;
+import dev.cobblesword.ctf.lobby.LobbyModule;
 import dev.cobblesword.libraries.common.messages.CC;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -38,6 +40,7 @@ public class GameManager implements Runnable
 
         this.setState(GameState.WAITING_FOR_PLAYERS);
 
+        Bukkit.getPluginManager().registerEvents(new GameManagerListener(this), plugin);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, 20L, 20L);
     }
 
@@ -70,6 +73,28 @@ public class GameManager implements Runnable
         {
             this.game.leave(player);
         }
+    }
+
+    public void backToLobby()
+    {
+        LobbyModule lobbyModule = CaptureTheFlagPlugin.getInstance().getLobbyModule();
+        Location spawnLocation = lobbyModule.getSpawnLocation();
+        for (Player player : Bukkit.getOnlinePlayers())
+        {
+            if(player.getVehicle() != null)
+            {
+                player.getVehicle().eject();
+                player.eject();
+            }
+
+            lobbyModule.applyLobbyKit(player);
+            player.teleport(spawnLocation);
+        }
+    }
+
+    public void setUpNextGame()
+    {
+        this.game = new Game(CaptureTheFlagPlugin.getInstance());
     }
 
     @Override
@@ -145,8 +170,9 @@ public class GameManager implements Runnable
 
             if(state == GameState.CELEBRATE)
             {
-                this.setState(GameState.ENDED);
-                Bukkit.getServer().shutdown();
+                this.setState(GameState.WAITING_FOR_PLAYERS);
+                backToLobby();
+                setUpNextGame();
             }
         }
 

@@ -94,6 +94,6 @@ public class LobbyListener implements Listener
     {
         Player player = e.getPlayer();
 
-        PlayerUtils.reset(player);
+        this.lobbyModule.applyLobbyKit(player);
     }
 }
