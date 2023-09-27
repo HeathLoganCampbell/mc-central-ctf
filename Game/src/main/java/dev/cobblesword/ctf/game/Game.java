@@ -129,9 +129,11 @@ public class Game implements Runnable
     private void broadcastChampion()
     {
         String gameId = "GAME#12332";
+        List<String> players = new ArrayList<>();
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers())
         {
+            players.add(onlinePlayer.getName());
             Team playerTeam = this.getPlayerTeam(onlinePlayer);
 
             onlinePlayer.sendMessage(CC.bYellow + CC.strikeThrough + "=============[" + CC.r + " " + CC.bAqua + gameId + " " + CC.bYellow + CC.strikeThrough + "]=============");

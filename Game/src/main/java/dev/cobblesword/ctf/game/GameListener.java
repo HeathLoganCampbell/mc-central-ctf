@@ -1,5 +1,6 @@
 package dev.cobblesword.ctf.game;
 
+import dev.cobblesword.libraries.common.task.Async;
 import dev.cobblesword.libraries.common.task.Sync;
 import dev.cobblesword.ctf.game.team.Team;
 import dev.cobblesword.libraries.common.messages.CC;
@@ -8,7 +9,6 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -118,6 +118,9 @@ public class GameListener implements Listener
         killerTeam.addKill();
 
         this.game.getPlayerGameStats(killer).addKill();
+
+        String killerName = killer.getName();
+        String victimName = e.getEntity().getName();
     }
 
     @EventHandler

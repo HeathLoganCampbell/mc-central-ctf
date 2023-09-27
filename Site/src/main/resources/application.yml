@@ -1,0 +1,15 @@
+spring:
+  data:
+    mongodb:
+      uri : ${MONGODB_URI}
+      database : CaptureTheFlag
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
+server:
+  port: 80
+
+logging:
+  level:
+    org.thymeleaf: DEBUG

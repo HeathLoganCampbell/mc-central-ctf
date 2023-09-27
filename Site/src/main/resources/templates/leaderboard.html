@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Leaderboard</title>
+        <style>
+            td, table {
+                border: 1px solid black;
+            }
+
+            td {
+                padding: 5px;
+            }
+            }
+        </style>
+    </head>
+    <body>
+<!--        <nav>-->
+<!--            <ul>-->
+<!--                <li>Home</li>-->
+<!--                <li>Leaderboard</li>-->
+<!--                <li><input placeholder="Seach Player..."></li>-->
+<!--            </ul>-->
+<!--        </nav>-->
+
+        <h1 style="text-align: center;">play.cobbleSword.com</h1>
+
+        <h1 style="text-align: center;">Player Leaderboard</h1>
+        <table style="margin: 20px auto;">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>Username</td>
+                    <td>Wins</td>
+                    <td>Captures</td>
+                    <td>Games</td>
+                    <td>Kills</td>
+                    <td>Deaths</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="player : ${playersPage.content}">
+                    <td th:text="${player.currentPlacement}"></td>
+                    <td th:text="${player.name}"></td>
+                    <td th:text="${player.totalWins}"></td>
+                    <td th:text="${player.totalCaptures}"></td>
+                    <td th:text="${player.totalGames}"></td>
+                    <td th:text="${player.totalKills}"></td>
+                    <td th:text="${player.totalDeaths}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="text-align: center;">
+            <ul style="display: inline-block; list-style-type: none;">
+                <!-- Previous page link -->
+                <li th:unless="${playersPage.first}" style="float: left;">
+                    <a th:href="@{'/?page=' + ${playersPage.number - 1} + '&size=' + ${playersPage.size}}">Previous</a>
+                </li>
+
+                <li th:text="${pageNumber}"></li>
+
+                <!-- Next page link -->
+                <li th:unless="${playersPage.last}" style="float: left;">
+                    <a th:href="@{'/?page=' + ${playersPage.number + 1} + '&size=' + ${playersPage.size}}">Next</a>
+                </li>
+            </ul>
+        </div>
+
+    </body>
+</html>
