@@ -14,12 +14,6 @@ import java.util.List;
 
 public class ScoreboardAdapter implements AssembleAdapter
 {
-    private Game game;
-
-    public ScoreboardAdapter(Game game) {
-        this.game = game;
-    }
-
     @Override
     public String getTitle(Player player) {
         return CC.bGold + "Capture The Flag";
@@ -30,6 +24,7 @@ public class ScoreboardAdapter implements AssembleAdapter
     {
         final List<String> toReturn = new ArrayList<>();
         PlayerData playerData = CaptureTheFlagPlugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
+        Game game = CaptureTheFlagPlugin.getInstance().getGameManager().getGame();
 
         if(game.getState().WaitingToStart() || game.getState() == GameState.PREPARE_GAME)
         {

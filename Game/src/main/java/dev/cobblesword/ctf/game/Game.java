@@ -39,6 +39,7 @@ public class Game implements Runnable
 
     private World gameWorld;
 
+    @Getter
     private TeamManager teamManager;
 
     public Game(JavaPlugin plugin)
@@ -139,11 +140,11 @@ public class Game implements Runnable
 
             onlinePlayer.sendMessage(CC.bYellow + CC.strikeThrough + "=============[" + CC.r + " " + CC.bAqua + gameId + " " + CC.bYellow + CC.strikeThrough + "]=============");
             onlinePlayer.sendMessage(CC.bYellow + "");
-            if(winningTeam != playerTeam)
+            if(winningTeam == playerTeam)
             {
                 onlinePlayer.sendMessage(CC.bYellow + "                 VICTORY!");
             }
-            if(winningTeam != null)
+            if(winningTeam == null)
             {
                 onlinePlayer.sendMessage(CC.bGray + "                 DRAW!");
             }
@@ -241,7 +242,6 @@ public class Game implements Runnable
 
             redTeamSpawn1.getWorld().setTime(1200L);
             Worlds.initStaticWorld(redTeamSpawn1.getWorld(), true);
-
 
             assignPlayersTeams();
 

@@ -69,6 +69,12 @@ public class PlayerDataManager
     {
         PlayerData playerData = this.playerDataMap.get(uuid);
 
+        if(playerData == null)
+        {
+            System.out.println("could not find player data for " + uuid);
+            return;
+        }
+
         playerData.setConnectionStatus(PlayerConnectionStatus.OFFLINE);
 
         this.playerDataRepository.save(playerData);

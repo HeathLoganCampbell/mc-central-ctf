@@ -10,8 +10,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class LobbyModule
 {
-    private Game game;
-
     private World lobbyWorld;
 
     public LobbyModule(JavaPlugin plugin, World lobbyWorld)
@@ -19,11 +17,6 @@ public class LobbyModule
         this.lobbyWorld = lobbyWorld;
 
         Bukkit.getPluginManager().registerEvents(new LobbyListener(this), plugin);
-    }
-
-    public void setGame(Game game)
-    {
-        this.game = game;
     }
 
     public boolean isInLobby(Player player)

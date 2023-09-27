@@ -1,5 +1,6 @@
 package dev.cobblesword.ctf.compass;
 
+import dev.cobblesword.ctf.CaptureTheFlagPlugin;
 import dev.cobblesword.ctf.game.Game;
 import dev.cobblesword.ctf.game.team.Team;
 import dev.cobblesword.ctf.game.team.TeamType;
@@ -21,9 +22,6 @@ import java.util.UUID;
 
 public class CompassModule implements Listener
 {
-    @Getter @Setter
-    private Game game;
-
     private HashMap<UUID, TeamType> targetTeamFlag = new HashMap<UUID, TeamType>();
 
     public CompassModule(JavaPlugin plugin)
@@ -44,6 +42,7 @@ public class CompassModule implements Listener
         ItemStack item = e.getItem();
         if(item == null) return;
         if(item.getType() != Material.COMPASS) return;
+        Game game = CaptureTheFlagPlugin.getInstance().getGameManager().getGame();
         if(game == null) return;
 
         Team yourTeam = game.getPlayerTeam(player);

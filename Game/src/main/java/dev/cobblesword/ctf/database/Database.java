@@ -67,11 +67,4 @@ public class Database
         datastore.getMapper().mapPackage(path);
     }
 
-    /**
-     * Called after you have made all your mappings
-     */
-    public void done()
-    {
-        datastore.ensureIndexes();
-    }
 }
