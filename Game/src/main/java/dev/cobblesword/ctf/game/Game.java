@@ -157,6 +157,7 @@ public class Game
             }
             onlinePlayer.sendMessage(CC.bYellow + "");
             onlinePlayer.sendMessage(CC.bYellow + "               " + this.getGoldEarned(onlinePlayer) + " gold");
+            onlinePlayer.sendMessage(CC.bYellow + "               " + this.getExpEarned(onlinePlayer) + " exp");
             onlinePlayer.sendMessage(CC.bYellow + CC.strikeThrough + "========================================");
         }
     }
@@ -236,6 +237,17 @@ public class Game
         return goldToGive;
     }
 
+    private int getExpEarned(Player player)
+    {
+
+        PlayerGameData playerGameData = playerGameStatsMap.get(player.getUniqueId());
+        Team team = this.getPlayerTeam(player);
+
+        int didWin = this.winningTeam == team ? 1 : 0;
+
+        return 100 + (200 * didWin);
+    }
+
     public void onGiveRewards()
     {
         for (Player player : this.gamers)
@@ -254,7 +266,7 @@ public class Game
 
             playerData.addGold(getGoldEarned(player));
 
-            CaptureTheFlagPlugin.getInstance().getLevelModule().addExp(player, 100);
+            CaptureTheFlagPlugin.getInstance().getLevelModule().addExp(player, getExpEarned(player));
 
             CaptureTheFlagPlugin.getPlayerDataManager().commit(playerData);
         }

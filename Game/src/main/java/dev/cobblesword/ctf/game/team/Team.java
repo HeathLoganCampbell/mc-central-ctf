@@ -1,5 +1,6 @@
 package dev.cobblesword.ctf.game.team;
 
+import dev.cobblesword.ctf.CaptureTheFlagPlugin;
 import dev.cobblesword.ctf.flag.Flag;
 import dev.cobblesword.libraries.common.utils.PlayerUtils;
 import dev.cobblesword.libraries.common.items.ItemStackBuilder;
@@ -96,6 +97,8 @@ public class Team
         inventory.setChestplate(new ItemStackBuilder(Material.LEATHER_CHESTPLATE).setLeatherColour(dyeColor).build());
         inventory.setLeggings(new ItemStackBuilder(Material.LEATHER_LEGGINGS).setLeatherColour(dyeColor).build());
         inventory.setBoots(new ItemStackBuilder(Material.LEATHER_BOOTS).setLeatherColour(dyeColor).build());
+
+        CaptureTheFlagPlugin.getInstance().getLevelModule().applyLevelToBar(player);
     }
 
     public int getTotalKills()

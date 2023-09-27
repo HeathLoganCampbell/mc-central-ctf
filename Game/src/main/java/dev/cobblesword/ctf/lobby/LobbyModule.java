@@ -33,13 +33,7 @@ public class LobbyModule extends Module
     {
         PlayerUtils.reset(player);
 
-        PlayerData playerData = CaptureTheFlagPlugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
-
-        if(playerData != null)
-        {
-            player.setLevel(playerData.getLevel());
-            player.setExp(levelModule.getPercentageTilNextLevel(player));
-        }
+        levelModule.applyLevelToBar(player);
     }
 
     public boolean isInLobby(Player player)

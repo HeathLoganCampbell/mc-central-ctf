@@ -141,6 +141,17 @@ public class LevelModule extends Module
         return color;
     }
 
+    public void applyLevelToBar(Player player)
+    {
+        PlayerData playerData = CaptureTheFlagPlugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
+
+        if(playerData != null)
+        {
+            player.setLevel(playerData.getLevel());
+            player.setExp(getPercentageTilNextLevel(player));
+        }
+    }
+
     @Override
     protected void onEnable() {
         this.registerCommands(new LevelsCommand(this));
