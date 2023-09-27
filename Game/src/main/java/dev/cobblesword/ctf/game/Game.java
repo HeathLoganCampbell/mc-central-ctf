@@ -193,14 +193,24 @@ public class Game implements Runnable
     @Override
     public void run()
     {
+        int minPlayers = 4;
+
         if(state == GameState.WAITING_FOR_PLAYERS)
         {
-            int minPlayers = 2;
             if(gamers.size() >= minPlayers)
             {
                 System.out.println("has enough players");
 
                 this.setState(GameState.COUNTDOWN);
+            }
+        }
+
+        if(state == GameState.COUNTDOWN)
+        {
+            if(gamers.size() < minPlayers)
+            {
+                Bukkit.broadcastMessage(CC.red + "No enough players to start. Requires " + minPlayers + " players to start!");
+                this.setState(GameState.WAITING_FOR_PLAYERS);
             }
         }
 
