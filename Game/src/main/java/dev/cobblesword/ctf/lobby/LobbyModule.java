@@ -1,10 +1,14 @@
 package dev.cobblesword.ctf.lobby;
 
+import dev.cobblesword.ctf.CaptureTheFlagPlugin;
+import dev.cobblesword.ctf.data.playerdata.types.PlayerData;
 import dev.cobblesword.ctf.game.Game;
 import dev.cobblesword.libraries.common.task.Sync;
 import dev.cobblesword.libraries.common.utils.PlayerUtils;
 import dev.cobblesword.libraries.common.world.Worlds;
+import dev.cobblesword.libraries.modules.levels.LevelModule;
 import dev.cobblesword.libraries.modules.serverstartup.Module;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -15,14 +19,27 @@ public class LobbyModule extends Module
 {
     private World lobbyWorld;
 
-    public LobbyModule(JavaPlugin plugin)
+    @Getter
+    private LevelModule levelModule;
+
+    public LobbyModule(JavaPlugin plugin, LevelModule levelModule)
     {
         super("Lobby", plugin);
+
+        this.levelModule = levelModule;
     }
 
     public void applyLobbyKit(Player player)
     {
         PlayerUtils.reset(player);
+
+        PlayerData playerData = CaptureTheFlagPlugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
+
+        if(playerData != null)
+        {
+            player.setLevel(playerData.getLevel());
+            player.setExp(levelModule.getPercentageTilNextLevel(player));
+        }
     }
 
     public boolean isInLobby(Player player)

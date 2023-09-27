@@ -17,6 +17,8 @@ public class PlayerData
     private PlayerConnectionStatus connectionStatus = PlayerConnectionStatus.OFFLINE;
 
     private int gold;
+
+    @Setter
     private int exp;
     private int level;
 
@@ -63,5 +65,9 @@ public class PlayerData
     public void addGold(int gold)
     {
         this.gold += gold;
+    }
+
+    public void addExp(int exp) {
+        this.exp += exp;
     }
 }

@@ -18,6 +18,7 @@ import dev.cobblesword.libraries.common.task.Sync;
 import dev.cobblesword.libraries.common.world.Worlds;
 import dev.assemble.Assemble;
 import dev.assemble.AssembleStyle;
+import dev.cobblesword.libraries.modules.levels.LevelModule;
 import dev.cobblesword.libraries.modules.serverstartup.ServerStartUpModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -46,6 +47,9 @@ public class CaptureTheFlagPlugin extends JavaPlugin
     @Getter
     private LobbyModule lobbyModule;
 
+    @Getter
+    private LevelModule levelModule;
+
     @Override
     public void onEnable()
     {
@@ -73,8 +77,10 @@ public class CaptureTheFlagPlugin extends JavaPlugin
         new ChatModule(this);
         new CompassModule(this).enable();
         new PerkModule(this).enable();
-        lobbyModule = new LobbyModule(this);
+        levelModule = new LevelModule(this);
+        lobbyModule = new LobbyModule(this, levelModule);
         lobbyModule.enable();
+        levelModule.enable();
 
         commandFramework.registerHelp();
     }

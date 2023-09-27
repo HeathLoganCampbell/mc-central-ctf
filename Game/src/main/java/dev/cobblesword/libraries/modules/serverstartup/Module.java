@@ -29,4 +29,9 @@ public abstract class Module implements Listener
     {
         Bukkit.getPluginManager().registerEvents(listener, CaptureTheFlagPlugin.getInstance());
     }
+
+    public void registerCommands(Object obj)
+    {
+        CaptureTheFlagPlugin.getInstance().getCommandFramework().registerCommands(obj);
+    }
 }
