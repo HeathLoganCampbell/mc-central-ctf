@@ -60,7 +60,11 @@ public class GameCommands
             game.join(player);
             game.getTeamManager().addPlayerToTeam(teamType, player);
             Team team = game.getPlayerTeam(player);
-            team.spawn(player);
+
+            if(game.getState() == GameState.IN_PROGRESS)
+            {
+                team.spawn(player);
+            }
 
             player.sendMessage(CC.green + "You have been added to the " + team.getName() + " team");
             args.getSender().sendMessage(CC.green + "add " + player.getName() + " to the " + teamType.name() + " team");
