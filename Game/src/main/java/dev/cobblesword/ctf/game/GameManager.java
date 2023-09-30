@@ -148,7 +148,7 @@ public class GameManager implements Runnable
                 }
             }
 
-            BaseComponent footer = new TextComponent("\nCobbleSword.Com\n");
+            BaseComponent footer = new TextComponent("\nCobbleSword.dev\n");
             footer.setBold(true);
             footer.setColor(ChatColor.AQUA);
 

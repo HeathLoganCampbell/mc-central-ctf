@@ -81,7 +81,7 @@ public class ScoreboardAdapter implements AssembleAdapter
         }
 
         toReturn.add(" ");
-        toReturn.add(CC.bAqua + "CobbleSword.com");
+        toReturn.add(CC.bAqua + "CobbleSword.dev");
 
         return toReturn;
     }
