@@ -108,17 +108,6 @@ public class GameManager implements Runnable
         }
     }
 
-    private String centerText(String text, int lineLength) {
-        StringBuilder builder = new StringBuilder(text);
-        char space = ' ';
-        int distance = (lineLength - text.length()) / 2;
-        for (int i = 0; i < distance; ++i) {
-            builder.insert(0, space);
-            builder.append(space);
-        }
-        return builder.toString();
-    }
-
     public void handleTabBanner()
     {
         for (Player onlinePlayer : Bukkit.getOnlinePlayers())
@@ -128,31 +117,32 @@ public class GameManager implements Runnable
             header.setColor(ChatColor.GOLD);
 
             header.addExtra("\n");
+            int tabHeaderSize = 80;
             if(state == GameState.WAITING_FOR_PLAYERS)
             {
-                header.addExtra(CC.gray + centerText("Waiting for players", 20) + "\n");
+                header.addExtra(CC.gray + "Waiting for players" + "\n");
             }
             else if(state == GameState.COUNTDOWN)
             {
-                header.addExtra(CC.gray + centerText("Starting in " + this.secondsRemaining + " seconds", 20) + "\n");
+                header.addExtra(CC.gray + "Starting in " + this.secondsRemaining + " seconds" + "\n");
             }
             else if(state == GameState.PREPARE_GAME)
             {
-                header.addExtra(CC.gray + centerText("Good Luck!", 20) + "\n");
+                header.addExtra(CC.gray + "Good Luck!" + "\n");
             }
             else if(state == GameState.IN_PROGRESS)
             {
-                header.addExtra(CC.gray + centerText(this.secondsRemaining + " seconds remaining", 20) + "\n");
+                header.addExtra(CC.gray + this.secondsRemaining + " seconds remaining" + "\n");
             }
             else if(state == GameState.CELEBRATE)
             {
                 if(this.getGame().getWinningTeam() != null)
                 {
-                    header.addExtra(CC.gray + centerText(this.getGame().getWinningTeam().getChatColor() + "VICTORY", 20) + "\n");
+                    header.addExtra(CC.gray + this.getGame().getWinningTeam().getChatColor() + "VICTORY" + "\n");
                 }
                 else
                 {
-                    header.addExtra(CC.gray + centerText("DRAW!", 20) + "\n");
+                    header.addExtra(CC.gray + "DRAW!" + "\n");
                 }
             }
 
