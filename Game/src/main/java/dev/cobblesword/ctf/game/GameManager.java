@@ -2,6 +2,8 @@ package dev.cobblesword.ctf.game;
 
 import dev.cobblesword.ctf.CaptureTheFlagPlugin;
 import dev.cobblesword.ctf.game.commands.GameCommands;
+import dev.cobblesword.ctf.game.team.TeamPrefix;
+import dev.cobblesword.ctf.game.team.TeamType;
 import dev.cobblesword.ctf.lobby.LobbyModule;
 import dev.cobblesword.libraries.common.messages.CC;
 import lombok.Getter;
@@ -203,6 +205,31 @@ public class GameManager implements Runnable
             this.game.onStart();
             this.setState(GameState.IN_PROGRESS);
             this.game.setInProgress(true);
+
+            List<Player> allPlayers = new ArrayList<>();
+            List<Player> redPlayers = new ArrayList<>();
+            List<Player> bluePlayers = new ArrayList<>();
+
+            for (UUID playerId : this.getGame().getTeam(TeamType.RED).getPlayers()) {
+                Player player = Bukkit.getPlayer(playerId);
+                if(player != null)
+                {
+                    allPlayers.add(player);
+                    redPlayers.add(player);
+                }
+            }
+
+            for (UUID playerId : this.getGame().getTeam(TeamType.BLUE).getPlayers()) {
+                Player player = Bukkit.getPlayer(playerId);
+                if(player != null)
+                {
+                    allPlayers.add(player);
+                    bluePlayers.add(player);
+                }
+            }
+
+            TeamPrefix.createTeamWithPlayer(CC.red, "red_team", redPlayers, allPlayers);
+            TeamPrefix.createTeamWithPlayer(CC.blue, "blue_team", bluePlayers, allPlayers);
         }
 
         boolean changeState = secondsRemaining == 0;
@@ -245,6 +272,13 @@ public class GameManager implements Runnable
                 {
                     Bukkit.broadcastMessage(CC.gray + "Game starting in " + CC.highlight(this.secondsRemaining + "") + " seconds.");
                 }
+
+                if(Stream.of(1, 2, 3, 4, 5, 10).anyMatch(sec -> secondsRemaining == sec))
+                {
+                    for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                        onlinePlayer.playSound(onlinePlayer.getLocation(), Sound.NOTE_PLING, 1f, 1f);
+                    }
+                }
             }
 
             if(this.state == GameState.IN_PROGRESS)
@@ -259,13 +293,6 @@ public class GameManager implements Runnable
                 if(Stream.of(1, 2, 3, 4, 5, 10, 30, 45).anyMatch(sec -> secondsRemaining == sec))
                 {
                     Bukkit.broadcastMessage(CC.gray + "Game ends in " + CC.highlight(this.secondsRemaining + "") + " seconds.");
-                }
-
-                if(Stream.of(1, 2, 3, 4, 5, 10).anyMatch(sec -> secondsRemaining == sec))
-                {
-                    for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                        onlinePlayer.playSound(onlinePlayer.getLocation(), Sound.NOTE_PLING, 1f, 1f);
-                    }
                 }
             }
 

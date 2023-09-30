@@ -50,6 +50,9 @@ public class CaptureTheFlagPlugin extends JavaPlugin
     @Getter
     private LevelModule levelModule;
 
+    @Getter
+    private Assemble assemble;
+
     @Override
     public void onEnable()
     {
@@ -58,9 +61,9 @@ public class CaptureTheFlagPlugin extends JavaPlugin
 
         ConfigManager configManager = new ConfigManager(this, this,"dev.cobblesword.ctf");
 
-        Assemble assemble = new Assemble(this, new ScoreboardAdapter());
-        assemble.setTicks(2);
-        assemble.setAssembleStyle(AssembleStyle.MODERN);
+        this.assemble = new Assemble(this, new ScoreboardAdapter());
+        this.assemble.setTicks(2);
+        this.assemble.setAssembleStyle(AssembleStyle.MODERN);
 
         gameManager = new GameManager(this);
 

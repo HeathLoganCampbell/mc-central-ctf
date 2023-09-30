@@ -21,7 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>dev.cobblesword.burritospigot</groupId>
-            <artifactId>api</artifactId>
+            <artifactId>server</artifactId>
             <version>1.8.8-R0.2-SNAPSHOT</version>
         </dependency>
         <dependency>
