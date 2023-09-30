@@ -2,13 +2,12 @@ package dev.cobblesword.ctf.game.team;
 
 import dev.cobblesword.libraries.common.Reflection;
 import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardTeam;
-import net.minecraft.server.v1_8_R3.ScoreboardTeam;
-import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class TeamPrefix
@@ -50,6 +49,19 @@ public class TeamPrefix
             CraftPlayer craftPlayer = (CraftPlayer) viewer;
             craftPlayer.getHandle().playerConnection.sendPacket(createTeamPacket);
             craftPlayer.getHandle().playerConnection.sendPacket(addPlayerPacket);
+        }
+    }
+
+    public static void removeTeamWithPlayer(String teamName, Collection<? extends Player> viewers)
+    {
+        // Create Team Packet
+        PacketPlayOutScoreboardTeam createTeamPacket = new PacketPlayOutScoreboardTeam();
+        setField(createTeamPacket, TEAM_NAME, teamName);
+        setField(createTeamPacket, TEAM_MODE, TeamMode.REMOVE.getMode());
+
+        for (Player viewer : viewers) {
+            CraftPlayer craftPlayer = (CraftPlayer) viewer;
+            craftPlayer.getHandle().playerConnection.sendPacket(createTeamPacket);
         }
     }
 

@@ -257,6 +257,8 @@ public class GameManager implements Runnable
             if(state == GameState.CELEBRATE)
             {
                 this.game.onExit();
+                TeamPrefix.removeTeamWithPlayer("red_team", Bukkit.getOnlinePlayers());
+                TeamPrefix.removeTeamWithPlayer("blue_team", Bukkit.getOnlinePlayers());
                 this.setState(GameState.WAITING_FOR_PLAYERS);
                 backToLobby();
                 setUpNextGame();
