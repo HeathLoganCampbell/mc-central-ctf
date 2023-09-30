@@ -25,6 +25,26 @@ public class GameCommands
     {
         GameManager gameManager = CaptureTheFlagPlugin.getInstance().getGameManager();
         gameManager.setState(GameState.PREPARE_GAME);
+
+        Bukkit.broadcastMessage(CC.bdPurple + "# # # # # # # # # # # # # # #");
+        Bukkit.broadcastMessage(CC.bdPurple + "# #  FORCE STARTED GAME   # #");
+        Bukkit.broadcastMessage(CC.bdPurple + "# # # # # # # # # # # # # # #");
+        args.getSender().sendMessage("Starting game!");
+    }
+
+    @Command(name = "game.remake", aliases = { "ctf.remake", "CaptureTheFlag.remake" }, description = "This is a test command", usage = "This is how you use it" , permission = "capturetheflag.start")
+    public void onRemakeGame(CommandArgs args)
+    {
+        GameManager gameManager = CaptureTheFlagPlugin.getInstance().getGameManager();
+
+        gameManager.getGame().onExit();
+        gameManager.setState(GameState.WAITING_FOR_PLAYERS);
+        gameManager.backToLobby();
+        gameManager.setUpNextGame();
+
+        Bukkit.broadcastMessage(CC.bdPurple + "# # # # # # # # # # # #");
+        Bukkit.broadcastMessage(CC.bdPurple + "# #   GAME REMAKE   # #");
+        Bukkit.broadcastMessage(CC.bdPurple + "# # # # # # # # # # # #");
         args.getSender().sendMessage("Starting game!");
     }
 
