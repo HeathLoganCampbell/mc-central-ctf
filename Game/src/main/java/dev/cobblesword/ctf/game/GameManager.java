@@ -5,6 +5,9 @@ import dev.cobblesword.ctf.game.commands.GameCommands;
 import dev.cobblesword.ctf.lobby.LobbyModule;
 import dev.cobblesword.libraries.common.messages.CC;
 import lombok.Getter;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -105,10 +108,68 @@ public class GameManager implements Runnable
         }
     }
 
+    private String centerText(String text, int lineLength) {
+        StringBuilder builder = new StringBuilder(text);
+        char space = ' ';
+        int distance = (lineLength - text.length()) / 2;
+        for (int i = 0; i < distance; ++i) {
+            builder.insert(0, space);
+            builder.append(space);
+        }
+        return builder.toString();
+    }
+
+    public void handleTabBanner()
+    {
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers())
+        {
+            BaseComponent header = new TextComponent("Capture The Flag");
+            header.setBold(true);
+            header.setColor(ChatColor.GOLD);
+
+            header.addExtra("\n");
+            if(state == GameState.WAITING_FOR_PLAYERS)
+            {
+                header.addExtra(CC.gray + centerText("Waiting for players", 20) + "\n");
+            }
+            else if(state == GameState.COUNTDOWN)
+            {
+                header.addExtra(CC.gray + centerText("Starting in " + this.secondsRemaining + " seconds", 20) + "\n");
+            }
+            else if(state == GameState.PREPARE_GAME)
+            {
+                header.addExtra(CC.gray + centerText("Good Luck!", 20) + "\n");
+            }
+            else if(state == GameState.IN_PROGRESS)
+            {
+                header.addExtra(CC.gray + centerText(this.secondsRemaining + " seconds remaining", 20) + "\n");
+            }
+            else if(state == GameState.CELEBRATE)
+            {
+                if(this.getGame().getWinningTeam() != null)
+                {
+                    header.addExtra(CC.gray + centerText(this.getGame().getWinningTeam().getChatColor() + "VICTORY", 20) + "\n");
+                }
+                else
+                {
+                    header.addExtra(CC.gray + centerText("DRAW!", 20) + "\n");
+                }
+            }
+
+            BaseComponent footer = new TextComponent("\nCobbleSword.Com\n");
+            footer.setBold(true);
+            footer.setColor(ChatColor.AQUA);
+
+            onlinePlayer.setPlayerListHeaderFooter(header, footer);
+        }
+    }
+
     @Override
     public void run()
     {
         int minPlayers = 2;
+
+        handleTabBanner();
 
         if(state == GameState.WAITING_FOR_PLAYERS)
         {

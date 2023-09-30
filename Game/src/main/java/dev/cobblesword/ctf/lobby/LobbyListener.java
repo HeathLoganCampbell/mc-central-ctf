@@ -24,7 +24,6 @@ public class LobbyListener implements Listener
     {
         this.lobbyModule = lobbyModule;
 
-        Sync.get().interval(20).run(this::handleTabBanner).execute();
         Sync.get().interval(50).run(this::handleFallingIntoVoid).execute();
     }
 
@@ -41,26 +40,6 @@ public class LobbyListener implements Listener
             {
                 onlinePlayer.teleport(lobbyModule.getSpawnLocation());
             }
-        }
-    }
-
-    public void handleTabBanner()
-    {
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers())
-        {
-            BaseComponent header = new TextComponent("Capture The Flag");
-            header.setBold(true);
-            header.setColor(ChatColor.GOLD);
-
-            header.addExtra("\n");
-            header.addExtra(CC.gray + "      15 minutes remaining\n");
-
-
-            BaseComponent footer = new TextComponent("\nCobbleSword.Com\n");
-            footer.setBold(true);
-            footer.setColor(ChatColor.AQUA);
-
-            onlinePlayer.setPlayerListHeaderFooter(header, footer);
         }
     }
 
