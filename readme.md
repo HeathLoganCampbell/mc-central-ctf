@@ -4,6 +4,9 @@ I use to like this game a while back, so thought It would give a go at remaking 
 
 Discord: https://discord.gg/x8ppp8J
 
+Notes:
+* Look into https://github.com/CASELOAD7000/knockback-sync for better pvp
+
 Example videos of capture the flag:
 https://youtu.be/SVdtJ7_kl3M?si=ot0ZpewBQPVLaDP1
 https://youtu.be/HNOeSSV-Y08?si=TjJToPG2X-utH5Hp
