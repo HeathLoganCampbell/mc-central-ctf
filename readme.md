@@ -1,6 +1,6 @@
 # `Capture the Flag`
-Remake of [mc centeral](https://mccentral.org/community/) Capture the flag
-I use to like this game a while back, so thought It would give a go at remaking it.
+Remake of [MC Central](https://mccentral.org/community/) Capture the flag
+I used to like this game a while back, so thought I would give it a go at remaking it.
 
 Discord: https://discord.gg/x8ppp8J
 
